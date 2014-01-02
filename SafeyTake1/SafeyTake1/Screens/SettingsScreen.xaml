@@ -7,65 +7,50 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
+    <Grid  Background="#FF93CED1" Width="480" Margin="5,10,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="150*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="28*"/>
+            <ColumnDefinition Width="212*"/>
+            <ColumnDefinition Width="213*"/>
+            <ColumnDefinition Width="27*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="headline" Grid.Column="1" Margin="120,21,110,11" TextWrapping="Wrap" Text="Settings" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="48" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="txtName" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Driver's name:" VerticalAlignment="Center" FontSize="28" FontFamily="Nyala" Width="157"/>
+        <TextBox x:Name="txtboxName" Grid.Column="1" HorizontalAlignment="Left" Height="65" TextWrapping="Wrap" Text="" Width="243" Grid.ColumnSpan="2" Margin="172,1,0,0" Grid.Row="1"/>
+        <TextBlock x:Name="txtUnits" Grid.Column="1" HorizontalAlignment="Center" Margin="10,16,10,59" Grid.Row="2" TextWrapping="Wrap" Text="Units:" VerticalAlignment="Center" FontSize="28" FontFamily="Nyala" Height="55" Width="192" Grid.RowSpan="2"/>
+        <RadioButton x:Name="radioMetric" Content="Metric" Grid.Column="1" HorizontalAlignment="Left" Margin="121,-7,0,0" Grid.Row="2" VerticalAlignment="Top" Width="129" Grid.ColumnSpan="2" Height="75"/>
+        <RadioButton x:Name="radioMiles" Content="Miles" Grid.Column="2" HorizontalAlignment="Left" Margin="74,-7,0,0" Grid.Row="2" VerticalAlignment="Top" Width="129" Height="75"/>
+        <TextBlock x:Name="txtEye" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" Text="Eye detection:" VerticalAlignment="Center" Width="147" Margin="5,10,0,10" FontFamily="Nyala" FontSize="28" UseLayoutRounding="True"/>
+        <CheckBox x:Name="checkEye" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="130,0,0,10" Grid.Row="3" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="75" Width="75"/>
+        <TextBlock x:Name="txtEye_Copy" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" Text="Distance detection:" VerticalAlignment="Center" Margin="5,10,0,10" FontFamily="Nyala" FontSize="28" Grid.ColumnSpan="2" UseLayoutRounding="True"/>
+        <CheckBox x:Name="checkEye_Copy" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="130,0,0,10" Grid.Row="5" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="75" Width="75"/>
+        <CheckBox x:Name="checkEye_Copy1" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="130,0,0,10" Grid.Row="4" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="75" Width="75"/>
+        <TextBlock x:Name="txtEye_Copy1" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" Text="Lane detection:" VerticalAlignment="Center" Width="162" Margin="5,10,0,10" FontFamily="Nyala" FontSize="28" UseLayoutRounding="True"/>
+        <Button x:Name="btnSave" Content="Save" Grid.Column="1" Margin="-10,5,0,0" Background="#FF3398EC" Grid.Row="8" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold"/>
+        <Button x:Name="btnCancel" Content="Cancel" Grid.Column="2" Margin="5,5,0,0" Background="#FF3398EC" Grid.Row="8" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold"/>
+        <Button x:Name="btnCalibrate" Content="Calibrate" Margin="18,0,0,80" Background="#FF3398EC" Grid.Row="7" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+    </Grid>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <StackPanel x:Name="LayoutRoot" Background="Transparent">
 
 
-        <StackPanel Height="100">
-            <!--TitlePanel contains the name of the application and page title-->
-            <TextBlock Text="Settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Grid.ColumnSpan="2" Height="100"/>
-        </StackPanel>
-        <Grid x:Name="ContentPanel" Margin="12,0,12,0" Height="668">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60*" />
-                <RowDefinition Height="60*" />
-                <RowDefinition Height="60*" />
-                <RowDefinition Height="60*" />
-                <RowDefinition Height="60*" />
 
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
 
-                <ColumnDefinition Width="7*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" FontSize="32" FontFamily="Portable User Interface"/>
-            <TextBox x:Name="textName" Grid.Column="1" Height="63" Margin="10,1,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="309" FontFamily="Portable User Interface" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="20"/>
-            <TextBlock HorizontalAlignment="Left" Margin="10,7,0,0" TextWrapping="Wrap" Text="Alert Color" VerticalAlignment="Top" FontSize="32" FontFamily="Portable User Interface" Grid.Row="1"/>
-            
-            <toolkit:ListPicker x:Name="colorListPicker" Grid.Column="1" Margin="10,23,10,10" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Header="Color Picker">
-                <toolkit:ListPicker.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Rectangle Fill="{Binding ColorBrush}" Margin="2, 2, 0 0" Width="26" Height="26" />
-                            <TextBlock Text="{Binding Text}" Margin="4 0 0 0"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </toolkit:ListPicker.ItemTemplate>
-                <toolkit:ListPicker.FullModeItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="16 21 0 20">
-                            <Rectangle Fill="{Binding ColorBrush}" Margin="2, 2, 0 0" Width="26" Height="26" />
-                            <TextBlock Text="{Binding Text}" Margin="4 0 0 0" FontSize="43" FontFamily="{StaticResource PhoneFontFamilyLight}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </toolkit:ListPicker.FullModeItemTemplate>
-            </toolkit:ListPicker>
-
-            <!--<TextBlock x:Name="driverNameText" Text="Driver's Name" />
-            <TextBox x:Name="textDriversN" />-->
-        </Grid>
-
-        <!--ContentPanel - place additional content here-->
-
-    </StackPanel>
 
 </phone:PhoneApplicationPage>

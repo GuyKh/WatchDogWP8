@@ -14,22 +14,27 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="#FF93CED1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="130"/>
+            <RowDefinition Height="285*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="90*"/>
         </Grid.RowDefinitions>
+        <Button x:Name="btnStartDriving" Content="Start driving" Grid.Row="2" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="32" FontWeight="Bold"/>
+        <Button x:Name="btnMyHistory" Content="My history" HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Top" Height="89"  Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontWeight="Bold" FontSize="32"/>
+        <Button x:Name="btnSettings" Content="Settings" Grid.Row="4" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontWeight="Bold" FontSize="32"/>
+        <Button x:Name="btnExit" Content="Exit" Grid.Row="5" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontWeight="Bold" FontSize="32"/>
+        <TextBox x:Name="headline" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="Watch DOG" VerticalAlignment="Center" Width="480" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF17567A" SelectionBackground="{x:Null}" SelectionForeground="#FF063D8D" FontFamily="MV Boli" FontWeight="Bold" TextAlignment="Center" Margin="0" FontSize="77"/>
+        <Image x:Name="imgDog" HorizontalAlignment="Left" Height="262" VerticalAlignment="Top" Grid.Column="1" Margin="32,10,0,0" Grid.Row="1" Source="/Resources/watch dog.jpg" Width="253"/>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
-
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-
-        </Grid>
     </Grid>
 
 </phone:PhoneApplicationPage>
