@@ -126,6 +126,9 @@
     <Compile Include="Screens\DriveScreen.xaml.cs">
       <DependentUpon>DriveScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\DriveSummaryScreen.xaml.cs">
+      <DependentUpon>DriveSummaryScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\FirstTimeScreen.xaml.cs">
       <DependentUpon>FirstTimeScreen.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Screens\DriveScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\DriveSummaryScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
