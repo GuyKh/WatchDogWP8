@@ -104,6 +104,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Alerters\IAlerter.cs" />
+    <Compile Include="DataStructures\Drive.cs" />
     <Compile Include="DataStructures\Driver.cs" />
     <Compile Include="DataStructures\EAlertType.cs" />
     <Compile Include="DataStructures\Speed.cs" />
@@ -120,6 +121,9 @@
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
     <Compile Include="DataStructures\Settings.cs" />
+    <Compile Include="Screens\CalibrationScreen.xaml.cs">
+      <DependentUpon>CalibrationScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\DriverHistoryScreen.xaml.cs">
       <DependentUpon>DriverHistoryScreen.xaml</DependentUpon>
     </Compile>
@@ -132,6 +136,9 @@
     <Compile Include="Screens\FirstTimeScreen.xaml.cs">
       <DependentUpon>FirstTimeScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Screens\SettingsScreen.xaml.cs">
+      <DependentUpon>SettingsScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Screens\StartScreen.xaml.cs">
       <DependentUpon>StartScreen.xaml</DependentUpon>
     </Compile>
@@ -143,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Screens\CalibrationScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

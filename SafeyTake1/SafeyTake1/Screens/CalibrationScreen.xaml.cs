@@ -7,21 +7,26 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using SafeyTake1.DataStructures;
 
 namespace SafeyTake1.Screens
 {
-    public partial class DriveSummaryScreen : PhoneApplicationPage
+    public partial class CalibrationScreen : PhoneApplicationPage
     {
-        public DriveSummaryScreen()
+        public CalibrationScreen()
         {
             InitializeComponent();
         }
 
-        private void populateFields(Drive drive)
+        private void setGPSToggle(bool ticked)
         {
-            txtDrivingTime = drive.EndTime.Subtract(drive.StartTime).ToString("HH:MM");
-            txtDriverAVGScore = drive.Driver;
+            checkGPS.IsChecked = ticked;
         }
+
+        private void setInternetToggle(bool ticked)
+        {
+            checkInternet.IsChecked = ticked;
+        }
+    
+        
     }
 }
