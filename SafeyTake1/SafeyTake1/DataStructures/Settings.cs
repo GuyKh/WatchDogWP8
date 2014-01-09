@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace SafeyTake1
+namespace SafeyTake1.DataStructures
 {
-    class Settings
+    public class Settings
     {
         #region Constants
 

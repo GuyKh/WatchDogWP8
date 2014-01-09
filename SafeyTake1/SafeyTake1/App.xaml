@@ -5,7 +5,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
 
-    <!--Application Resources-->
+    <!--Application Resources -->
     <Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:SafeyTake1" x:Key="LocalizedStrings"/>
     </Application.Resources>

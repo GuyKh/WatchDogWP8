@@ -18,5 +18,16 @@ namespace SafeyTake1.Screens
         {
             InitializeComponent();
         }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Terminate();
+        }
+
+        private void btnContinue_Click(object sender, RoutedEventArgs e)
+        {
+            StartScreen.isFirstTime = false;
+            NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
+        }
     }
 }

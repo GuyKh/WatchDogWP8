@@ -45,16 +45,17 @@
             <TextBlock x:Name="txtUser" Margin="10,29,0,0" Grid.Row="1" TextWrapping="Wrap" Text="User name:" FontSize="28" FontFamily="Nyala"/>
             <TextBlock x:Name="txtPassword" Margin="10,27,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Password:" FontSize="28" FontFamily="Nyala"/>
             <TextBlock x:Name="txtVerify" Margin="10,28,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Verify password:" FontSize="28" FontFamily="Nyala"/>
-            <TextBox x:Name="txtboxUser" Margin="10,10,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
-            <TextBox x:Name="txtboxPassword" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
-            <TextBox x:Name="txtboxVerify" Margin="10,10,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
+            <TextBox x:Name="txtboxUser" Margin="10,10,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"/>
+            <TextBox x:Name="txtboxPassword" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"/>
+            <TextBox x:Name="txtboxVerify" Margin="10,10,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"/>
             <Grid HorizontalAlignment="Left" Height="91" VerticalAlignment="Top" Width="446" RenderTransformOrigin="2.124,3.898" Grid.ColumnSpan="2" Margin="10,93,0,-101" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="btnContinue" Background="#FF3398EC" Content="Continue" Grid.Column="1" Margin="0,10,-10,0" BorderBrush="{x:Null}" FontSize="28" FontFamily="Segoe Print" FontWeight="Bold"/>
-                <Button x:Name="btnExit" Background="#FF3398EC" Content="Exit" Margin="-20,10,0,0" Click="Button_Click" BorderBrush="{x:Null}" FontSize="28" FontFamily="Segoe Print" FontWeight="Bold"/>
+                <Button x:Name="btnContinue" Background="#FF3398EC" Content="Continue" Grid.Column="1" Margin="0,10,-10,0" BorderBrush="{x:Null}" FontSize="28" FontFamily="Segoe Print" FontWeight="Bold" Click="btnContinue_Click"/>
+                <Button x:Name="btnExit" Background="#FF3398EC" Content="Exit" Margin="-20,10,0,0" 
+                         BorderBrush="{x:Null}" FontSize="28" FontFamily="Segoe Print" FontWeight="Bold" Click="btnExit_Click"/>
             </Grid>
         </Grid>
     </Grid>

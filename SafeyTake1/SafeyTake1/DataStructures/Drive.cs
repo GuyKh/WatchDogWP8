@@ -24,9 +24,8 @@ namespace SafeyTake1.DataStructures
             _startTime = DateTime.Now;
             _driver = driver;
         }
-        public Drive(Driver driver, DateTime startTime)
+        public Drive(Driver driver, DateTime startTime) : this(driver)
         {
-            this(driver);
             _startTime = startTime;
 
         }

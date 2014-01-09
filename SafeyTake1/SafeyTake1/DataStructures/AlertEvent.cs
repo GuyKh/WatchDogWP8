@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 
-namespace SafeyTake1
+namespace SafeyTake1.DataStructures
 {
     class AlertEvent
     {

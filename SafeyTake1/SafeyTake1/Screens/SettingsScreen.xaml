@@ -43,9 +43,9 @@
         <CheckBox x:Name="checkEye_Copy" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="130,0,0,10" Grid.Row="5" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="75" Width="75"/>
         <CheckBox x:Name="checkEye_Copy1" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="130,0,0,10" Grid.Row="4" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="75" Width="75"/>
         <TextBlock x:Name="txtEye_Copy1" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" Text="Lane detection:" VerticalAlignment="Center" Margin="5" FontFamily="Nyala" FontSize="28" UseLayoutRounding="True"/>
-        <Button x:Name="btnSave" Content="Save" Grid.Column="1" Margin="-10,5,0,0" Background="#FF3398EC" Grid.Row="8" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold"/>
+        <Button x:Name="btnSave" Content="Save" Grid.Column="1" Margin="-10,5,0,0" Background="#FF3398EC" Grid.Row="8" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Click="btnSave_Click"/>
         <Button x:Name="btnCancel" Content="Cancel" Grid.Column="2" Margin="5,5,0,0" Background="#FF3398EC" Grid.Row="8" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold"/>
-        <Button x:Name="btnCalibrate" Content="Calibrate" Margin="5,0,0,0" Background="#FF3398EC" Grid.Row="7" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <Button x:Name="btnCalibrate" Content="Calibrate" Margin="5,0,0,0" Background="#FF3398EC" Grid.Row="7" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="1" Click="btnCalibrate_Click"/>
     </Grid>
 
 </phone:PhoneApplicationPage>

@@ -16,5 +16,10 @@ namespace SafeyTake1.Screens
         {
             InitializeComponent();
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Screens/StartScreen.xaml", UriKind.Relative));
+        }
     }
 }

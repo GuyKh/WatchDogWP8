@@ -39,7 +39,7 @@
         <Image x:Name="cameraImage" Grid.ColumnSpan="3" Grid.Column="1" Margin="5" Grid.Row="3"/>
 
         <Button x:Name="btnTest" Content="Test" Margin="5,5,0,0" Background="#FF3398EC" Grid.Row="4" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Grid.ColumnSpan="1" Grid.Column="1"/>
-        <Button x:Name="btnNext" Content="Next" Margin="5,5,0,0" Background="#FF3398EC" Grid.Row="4" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="2" />
+        <Button x:Name="btnBack" Content="Back" Margin="5,5,0,0" Background="#FF3398EC" Grid.Row="4" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="2" Click="btnBack_Click" />
 
 
     </Grid>

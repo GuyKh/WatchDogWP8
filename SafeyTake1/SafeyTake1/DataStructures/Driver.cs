@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SafeyTake1
+namespace SafeyTake1.DataStructures
 {
     class Driver
     {
@@ -82,7 +82,7 @@ namespace SafeyTake1
         {
             _driversEvents.Add(ae);
             recalculateAverage();
-            return _avgScore
+            return _avgScore;
         }
 
   

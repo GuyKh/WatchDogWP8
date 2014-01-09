@@ -18,6 +18,10 @@ namespace SafeyTake1.Alerters
             return false;
         }
 
+        virtual public float ProcessData() {
+            return -1;
+        }
+        
     }
     
 }

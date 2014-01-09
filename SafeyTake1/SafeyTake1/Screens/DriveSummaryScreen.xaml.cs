@@ -20,8 +20,13 @@ namespace SafeyTake1.Screens
 
         private void populateFields(Drive drive)
         {
-            txtDrivingTime = drive.EndTime.Subtract(drive.StartTime).ToString("HH:MM");
-            txtDriverAVGScore = drive.Driver;
+            txtDrivingTime.Text = drive.EndTime.Subtract(drive.StartTime).ToString("HH:MM");
+            txtDriverAVGScore.Text = drive.Driver.AverageScore.ToString();
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Terminate();
         }
     }
 }

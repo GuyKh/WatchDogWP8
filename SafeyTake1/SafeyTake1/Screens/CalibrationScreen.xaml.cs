@@ -26,6 +26,11 @@ namespace SafeyTake1.Screens
         {
             checkInternet.IsChecked = ticked;
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
+        }
     
         
     }

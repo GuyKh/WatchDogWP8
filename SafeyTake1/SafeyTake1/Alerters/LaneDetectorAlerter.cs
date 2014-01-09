@@ -8,7 +8,7 @@ namespace SafeyTake1.Alerters
 {
     class LaneDetectorAlerter : BackCameraAlerterAbstract
     {
-        float ProcessData()
+        override public float ProcessData()
         {
             return 0;
         }
