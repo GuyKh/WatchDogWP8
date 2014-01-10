@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace SafeyTake1
 {
-    class Settings
+    public class Settings
     {
         #region Constants
 
