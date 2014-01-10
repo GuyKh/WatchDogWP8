@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SafeyTake1
+namespace SafeyTake1.DataStructures
 {
     enum EAlertType
     {

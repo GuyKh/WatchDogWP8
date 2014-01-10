@@ -10,14 +10,19 @@ using Microsoft.Phone.Shell;
 
 namespace SafeyTake1.Screens
 {
-    public partial class DriverHistoryScreen : PhoneApplicationPage
+    public partial class SettingsScreen : PhoneApplicationPage
     {
-        public DriverHistoryScreen()
+        public SettingsScreen()
         {
             InitializeComponent();
         }
 
-        private void btnBack_Click(object sender, RoutedEventArgs e)
+        private void btnCalibrate_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Screens/CalibrationScreen.xaml", UriKind.Relative));
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Screens/StartScreen.xaml", UriKind.Relative));
         }

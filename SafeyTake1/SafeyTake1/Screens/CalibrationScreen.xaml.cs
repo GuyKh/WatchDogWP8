@@ -10,24 +10,28 @@ using Microsoft.Phone.Shell;
 
 namespace SafeyTake1.Screens
 {
-    public partial class FirstTime : PhoneApplicationPage
+    public partial class CalibrationScreen : PhoneApplicationPage
     {
-        private int _newSettings;
-
-        public FirstTime()
+        public CalibrationScreen()
         {
             InitializeComponent();
         }
 
-        private void btnExit_Click(object sender, RoutedEventArgs e)
+        private void setGPSToggle(bool ticked)
         {
-            Application.Current.Terminate();
+            checkGPS.IsChecked = ticked;
         }
 
-        private void btnContinue_Click(object sender, RoutedEventArgs e)
+        private void setInternetToggle(bool ticked)
         {
-            StartScreen.isFirstTime = false;
+            checkInternet.IsChecked = ticked;
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
             NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
         }
+    
+        
     }
 }

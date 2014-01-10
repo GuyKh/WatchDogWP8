@@ -56,5 +56,20 @@ namespace SafeyTake1.Screens
         {
 
         }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Screens/DriveSummaryScreen.xaml", UriKind.Relative));
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Logic.DriveLogic.StartLoop();
+        }
     }
 }

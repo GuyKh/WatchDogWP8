@@ -11,7 +11,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
     <Grid HorizontalAlignment="Left" Background="#FF93CED1" Height="768" VerticalAlignment="Top" Width="480">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="63*"/>
@@ -24,8 +24,8 @@
             <RowDefinition Height="92*"/>
             <RowDefinition Height="87*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="btnSettings" Content="Settings" Grid.Row="2" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="32" Margin="0,3,0,0" FontWeight="Bold"/>
-        <Button x:Name="btnExit" Content="Exit" Grid.Row="5" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontWeight="Bold" FontSize="32"/>
+        <Button x:Name="btnSettings" Content="Settings" Grid.Row="2" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="32" Margin="0,3,0,0" FontWeight="Bold" Click="btnSettings_Click"/>
+        <Button x:Name="btnExit" Content="Exit" Grid.Row="5" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontWeight="Bold" FontSize="32" Click="btnExit_Click"/>
         <Image x:Name="imgMeter" HorizontalAlignment="Left" Height="504" VerticalAlignment="Top" Width="460" Margin="10,0,0,0" Grid.Row="1" Source="/Resources/Color-Meter-icon.png" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
     </Grid>
 
