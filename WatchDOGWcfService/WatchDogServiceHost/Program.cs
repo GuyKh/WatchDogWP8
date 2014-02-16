@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.ServiceModel;
-using System.ServiceModel.Description;
-using System.Text;
-using System.Threading.Tasks;
-using WatchDogWcf;
+using WatchDogService;
 
 namespace WatchDogServiceHost
 {
     class Program
     {
-        static ServiceHost host = null;
+        static ServiceHost _host;
 
 
         static void StartService()
         {
-            host = new ServiceHost(typeof(WatchDogService));
+            _host = new ServiceHost(typeof(WatchDogWcfService));
             /***********
              * if you don't want to use App.Config for the web service host, 
                  * just uncomment below:
@@ -27,27 +21,28 @@ namespace WatchDogServiceHost
                  new WSHttpBinding(), 
                  new EndpointAddress("http://localhost:8732/awesomeschoolservice"))); 
              **********/
-            host.Open();
+            _host.Open();
         }
 
 
         static void CloseService()
         {
-            if (host.State != CommunicationState.Closed)
+            if (_host.State != CommunicationState.Closed)
             {
-                host.Close();
+                _host.Close();
             }
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
 
             Console.WriteLine("Starting Watch DOG Service ....");
             StartService();
             Console.WriteLine("Watch DOG Service is running....");
-            foreach (var channelDispatcher in host.ChannelDispatchers)
+            foreach (var channelDispatcher in _host.ChannelDispatchers)
             {
-                Console.WriteLine(channelDispatcher.Listener.Uri.ToString());
+                if (channelDispatcher.Listener != null) 
+                    Console.WriteLine(channelDispatcher.Listener.Uri.ToString());
             }
             Console.ReadKey();
 

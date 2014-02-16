@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchDogWcf", "WatchDOGWcfService\WatchDogWcf.csproj", "{149F2DEF-294C-4AA1-91AC-0EA47080C3A2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchDogServiceHost", "WatchDogServiceHost\WatchDogServiceHost.csproj", "{373E3535-477D-4091-8AA8-195FC670EEFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchDogService", "WatchDogService\WatchDogService.csproj", "{172D6823-ABA4-4904-8FAF-F75C5B74FB33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{149F2DEF-294C-4AA1-91AC-0EA47080C3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{149F2DEF-294C-4AA1-91AC-0EA47080C3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{149F2DEF-294C-4AA1-91AC-0EA47080C3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{149F2DEF-294C-4AA1-91AC-0EA47080C3A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{373E3535-477D-4091-8AA8-195FC670EEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{373E3535-477D-4091-8AA8-195FC670EEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{373E3535-477D-4091-8AA8-195FC670EEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{373E3535-477D-4091-8AA8-195FC670EEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{172D6823-ABA4-4904-8FAF-F75C5B74FB33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{172D6823-ABA4-4904-8FAF-F75C5B74FB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{172D6823-ABA4-4904-8FAF-F75C5B74FB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{172D6823-ABA4-4904-8FAF-F75C5B74FB33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

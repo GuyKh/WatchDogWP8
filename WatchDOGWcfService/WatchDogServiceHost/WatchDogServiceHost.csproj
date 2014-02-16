@@ -49,9 +49,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WatchDOGWcfService\WatchDogWcf.csproj">
-      <Project>{149f2def-294c-4aa1-91ac-0ea47080c3a2}</Project>
-      <Name>WatchDogWcf</Name>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WatchDogService\WatchDogService.csproj">
+      <Project>{172D6823-ABA4-4904-8FAF-F75C5B74FB33}</Project>
+      <Name>WatchDogService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
