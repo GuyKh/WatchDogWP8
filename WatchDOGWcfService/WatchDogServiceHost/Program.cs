@@ -40,7 +40,6 @@ namespace WatchDogServiceHost
             StartService();
 
             Console.WriteLine("Watch DOG Service is running....");
-            Console.WriteLine("At - " + host.BaseAddresses.ToString());
             Console.WriteLine("Press any key to close");
             Console.ReadKey();
 

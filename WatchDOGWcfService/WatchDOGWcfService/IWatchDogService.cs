@@ -25,7 +25,7 @@ namespace WatchDogWcf
         FacesWithEyes GetFaces(Image<Bgr, Byte> image);
 
         [OperationContract]
-        FacesWithEyes GetFaces(Image<Bgr, Byte> image, string facesXmlModel, string eyesXmlModel, double faceRatio, double eyeRatio);
+        FacesWithEyes GetFacesWithCustomData(Image<Bgr, Byte> image, string facesXmlModel, string eyesXmlModel, double faceRatio, double eyeRatio);
     }
 
 

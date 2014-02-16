@@ -39,7 +39,7 @@ namespace WatchDogWcf
             double faceRatio = Double.Parse(WebConfigurationManager.AppSettings["DefaultFacesRatio"]);
             double eyesRatio = Double.Parse(WebConfigurationManager.AppSettings["DefaulteyesRatio"]);
 
-            return GetFaces(image, facesXmlModel, eyesXmlModel, faceRatio, eyesRatio);
+            return GetFacesWithCustomData(image, facesXmlModel, eyesXmlModel, faceRatio, eyesRatio);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace WatchDogWcf
         /// <param name="faceRatio"></param>
         /// <param name="eyeRatio"></param>
         /// <returns></returns>
-        public FacesWithEyes GetFaces(Image<Bgr, byte> image, string facesXmlModel, string eyesXmlModel, double faceRatio, double eyeRatio)
+        public FacesWithEyes GetFacesWithCustomData(Image<Bgr, byte> image, string facesXmlModel, string eyesXmlModel, double faceRatio, double eyeRatio)
         {
             long detectionTime = 0;
             return DetectFace.Detect(image, facesXmlModel, eyesXmlModel, out detectionTime, faceRatio, eyeRatio);
