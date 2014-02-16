@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
@@ -17,12 +18,15 @@ namespace WatchDogServiceHost
         static void StartService()
         {
             host = new ServiceHost(typeof(WatchDogService));
-
+            /***********
+             * if you don't want to use App.Config for the web service host, 
+                 * just uncomment below:
+             ***********
                  host.AddServiceEndpoint(new ServiceEndpoint(
-                 ContractDescription.GetContract(typeof(IWatchDogService)),
+                 ContractDescription.GetContract(typeof(IStudentEnrollmentService)),
                  new WSHttpBinding(), 
-                 new EndpointAddress("http://localhost:8765/WatchDOG"))); 
-
+                 new EndpointAddress("http://localhost:8732/awesomeschoolservice"))); 
+             **********/
             host.Open();
         }
 
@@ -41,7 +45,10 @@ namespace WatchDogServiceHost
             Console.WriteLine("Starting Watch DOG Service ....");
             StartService();
             Console.WriteLine("Watch DOG Service is running....");
-            
+            foreach (var channelDispatcher in host.ChannelDispatchers)
+            {
+                Console.WriteLine(channelDispatcher.Listener.Uri.ToString());
+            }
             Console.ReadKey();
 
             CloseService();
