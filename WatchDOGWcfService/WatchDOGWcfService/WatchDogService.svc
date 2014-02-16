@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="WatchDOGWcfService.Service1" CodeBehind="WatchDogService.svc.cs" %>
