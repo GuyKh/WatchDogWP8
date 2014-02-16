@@ -43,7 +43,7 @@
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
             <TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        <Image x:Name="imgPlace"/>
+        <Image x:Name="imgPlace" Width="400" Height="400"/>
         <Button x:Name="btnClick" Content="Click Me" Click="btnClick_Click" />
         
         </StackPanel>
