@@ -37,10 +37,11 @@ namespace WatchDogServiceHost
 
         static void Main(string[] args)
         {
-            StartService();
 
+            Console.WriteLine("Starting Watch DOG Service ....");
+            StartService();
             Console.WriteLine("Watch DOG Service is running....");
-            Console.WriteLine("Press any key to close");
+            
             Console.ReadKey();
 
             CloseService();
