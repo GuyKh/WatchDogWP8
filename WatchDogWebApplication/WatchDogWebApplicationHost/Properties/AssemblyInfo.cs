@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WatchDogWcfServiceLibrary")]
+[assembly: AssemblyTitle("WatchDogWebApplicationHost")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WatchDogWcfServiceLibrary")]
+[assembly: AssemblyProduct("WatchDogWebApplicationHost")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7a7951f8-02f6-4a13-8dfd-fe7ab2bb81db")]
+[assembly: Guid("7e26169b-74a8-4287-a763-ba31194cb7d8")]
 
 // Version information for an assembly consists of the following four values:
 //
