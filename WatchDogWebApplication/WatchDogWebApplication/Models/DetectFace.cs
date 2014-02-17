@@ -8,7 +8,7 @@ using Emgu.CV;
 using Emgu.CV.GPU;
 using Emgu.CV.Structure;
 
-namespace WatchDogService
+namespace WatchDogWebApplication.Models
 {
     public class DetectFace
     {
@@ -113,6 +113,5 @@ namespace WatchDogService
 
             return new FacesWithEyes { Faces = faces, Eyes = eyes };
         }
-
     }
 }

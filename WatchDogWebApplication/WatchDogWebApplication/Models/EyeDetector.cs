@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
-using System.Web.Configuration;
-using Emgu.CV;
-using Emgu.CV.Structure;
+using System.Web;
 
-namespace WatchDogWcfServiceLibrary
+namespace WatchDogWebApplication.Models
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "WatchDogService" in both code and config file together.
-    public class WatchDogService : IWatchDogService
+    public class EyeDetector
     {
         /// <summary>
         /// Returns true if there are atleast one face and two eyes in the picture.
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        public bool IsThereFaces(Image<Bgr, byte> image)
+        public static bool ContainsFaces(Image image)
         {
-            FacesWithEyes _faces = GetFaces(image);
-            return (_faces.Faces.Count > 0 && _faces.Eyes.Count > 1);
+            FacesWithEyes faces = GetFaces(image);
+            return (faces.Faces.Count > 0 && faces.Eyes.Count > 1);
         }
 
         /// <summary>
@@ -30,13 +25,12 @@ namespace WatchDogWcfServiceLibrary
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        public FacesWithEyes GetFaces(Image<Bgr, byte> image)
+        public static FacesWithEyes GetFaces(Image image)
         {
-            string facesXmlModel = WebConfigurationManager.AppSettings["DefaultFacesXMLModel"];
-            string eyesXmlModel = WebConfigurationManager.AppSettings["DefaultEyesXMLModel"];
-            double faceRatio = Double.Parse(WebConfigurationManager.AppSettings["DefaultFacesRatio"]);
-            double eyesRatio = Double.Parse(WebConfigurationManager.AppSettings["DefaulteyesRatio"]);
-
+            string facesXmlModel = System.Configuration.ConfigurationManager.AppSettings["DefaultFacesXMLModel"];
+            string eyesXmlModel = System.Configuration.ConfigurationManager.AppSettings["DefaultEyesXMLModel"];
+            double faceRatio = Double.Parse(System.Configuration.ConfigurationManager.AppSettings["DefaultFacesRatio"]);
+            double eyesRatio = Double.Parse(System.Configuration.ConfigurationManager.AppSettings["DefaultEyesRatio"]);
             return GetFacesWithCustomData(image, facesXmlModel, eyesXmlModel, faceRatio, eyesRatio);
         }
 
@@ -50,10 +44,19 @@ namespace WatchDogWcfServiceLibrary
         /// <param name="faceRatio"></param>
         /// <param name="eyeRatio"></param>
         /// <returns></returns>
-        public FacesWithEyes GetFacesWithCustomData(Image<Bgr, byte> image, string facesXmlModel, string eyesXmlModel, double faceRatio, double eyeRatio)
+        public static FacesWithEyes GetFacesWithCustomData(Image image, string facesXmlModel, string eyesXmlModel, double faceRatio, double eyeRatio)
         {
             long detectionTime = 0;
             return DetectFace.Detect(image, facesXmlModel, eyesXmlModel, out detectionTime, faceRatio, eyeRatio);
         }
+    }
+
+    
+
+    public class FacesWithEyes
+    {
+        public List<Rectangle> Faces { get; set; }
+
+        public List<Rectangle> Eyes { get; set; }
     }
 }
