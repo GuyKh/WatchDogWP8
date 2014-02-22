@@ -11,7 +11,7 @@ namespace WatchDogWebApplicationHost
 {
     class Program
     {
-        static readonly Uri _baseAddress = new Uri("http://localhost:13408");
+        static readonly Uri _baseAddress = new Uri("http://localhost:13407");
         static readonly Uri _address = new Uri(_baseAddress, "/api/eyedetect");
 
 
