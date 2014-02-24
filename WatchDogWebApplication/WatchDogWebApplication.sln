@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchDogWebApplication", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchDogWebApplicationHost", "WatchDogWebApplicationHost\WatchDogWebApplicationHost.csproj", "{2CBD0784-69B4-42FD-A84F-3F14C4E206F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebAPIWpfApplication", "SampleWebAPIWpfApplication\SampleWebAPIWpfApplication.csproj", "{E4EEDFF1-A597-4FE7-82C3-3B8A94D35F28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2CBD0784-69B4-42FD-A84F-3F14C4E206F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CBD0784-69B4-42FD-A84F-3F14C4E206F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CBD0784-69B4-42FD-A84F-3F14C4E206F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4EEDFF1-A597-4FE7-82C3-3B8A94D35F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4EEDFF1-A597-4FE7-82C3-3B8A94D35F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4EEDFF1-A597-4FE7-82C3-3B8A94D35F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4EEDFF1-A597-4FE7-82C3-3B8A94D35F28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

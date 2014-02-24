@@ -39,7 +39,7 @@ namespace WatchDogWebApplication.Models
                             {
                                 //For some reason a clone is required.
                                 //Might be a bug of GpuCascadeClassifier in opencv
-                                using (GpuImage<Gray, Byte> clone = faceImg.Clone(null))
+                                using (GpuImage<Gray, Byte> clone = faceImg.Clone())
                                 {
                                     Rectangle[] eyeRegion = eye.DetectMultiScale(clone, eyeRatio, 10, Size.Empty);
 
