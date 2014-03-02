@@ -13,7 +13,7 @@ namespace SafeyTake1.Screens
 {
     public partial class StartScreen : PhoneApplicationPage
     {
-
+        // New Comment.
         private static Settings _mySettings;
         public static bool isFirstTime=true;
 
