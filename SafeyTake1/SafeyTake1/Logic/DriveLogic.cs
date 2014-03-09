@@ -11,7 +11,7 @@ namespace SafeyTake1.Logic
 {
     class DriveLogic
     {
-
+        //dani comment
         CameraCaptureTask cameraCaptureTask;
         private int[] _continousSafeTime;
         private List<AlertEvent> _eventsList;
