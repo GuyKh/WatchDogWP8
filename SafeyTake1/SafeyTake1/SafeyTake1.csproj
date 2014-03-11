@@ -239,6 +239,10 @@
       <Project>{3C43C117-38B3-4C34-B0B2-30351C24BD2D}</Project>
       <Name>NativeFaceDetector</Name>
     </ProjectReference>
+    <ProjectReference Include="..\U2UC.WP8.Controls\U2UC.WP8.Controls.csproj">
+      <Project>{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}</Project>
+      <Name>U2UC.WP8.Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

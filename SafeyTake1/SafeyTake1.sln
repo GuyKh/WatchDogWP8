@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeFaceDetector", "Nativ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceDetectionWinPhone", "FaceDetectionWP\FaceDetectionWinPhone.csproj", "{A1381BBF-124E-4B05-B34C-D6889299DF48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "U2UC.WP8.Controls", "U2UC.WP8.Controls\U2UC.WP8.Controls.csproj", "{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,26 @@ Global
 		{A1381BBF-124E-4B05-B34C-D6889299DF48}.Release|Win32.Build.0 = Release|x86
 		{A1381BBF-124E-4B05-B34C-D6889299DF48}.Release|x86.ActiveCfg = Release|x86
 		{A1381BBF-124E-4B05-B34C-D6889299DF48}.Release|x86.Build.0 = Release|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|ARM.ActiveCfg = Debug|ARM
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|ARM.Build.0 = Debug|ARM
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|Win32.ActiveCfg = Debug|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|Win32.Build.0 = Debug|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|x86.ActiveCfg = Debug|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Debug|x86.Build.0 = Debug|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|ARM.ActiveCfg = Release|ARM
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|ARM.Build.0 = Release|ARM
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|Win32.ActiveCfg = Release|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|Win32.Build.0 = Release|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|x86.ActiveCfg = Release|x86
+		{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

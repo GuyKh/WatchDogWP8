@@ -7,11 +7,15 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Windows.Media;
 
 namespace SafeyTake1.Screens
 {
     public partial class DriveScreen : PhoneApplicationPage
     {
+        private double _safetyLevel = 0;
+
+
         public DriveScreen()
         {
             InitializeComponent();
@@ -27,9 +31,9 @@ namespace SafeyTake1.Screens
 
         }
 
-        private float getCurrentSafetyLevel()
+        private double getCurrentSafetyLevel()
         {
-            return 0;
+            return _safetyLevel;
         }
 
         private void openSettings()
@@ -52,9 +56,22 @@ namespace SafeyTake1.Screens
 
         }
 
-        private void updateSafetyMeter()
+        private void updateSafetyMeter(double value)
         {
+            // Update the safety meter 
+            this.Dispatcher.BeginInvoke(delegate()
+            {
+                safetyMeter.Value = value;
+                _safetyLevel = value;
 
+                // Update the trail color
+                if (value < 33)
+                    safetyMeter.TrailBrush = new SolidColorBrush(Colors.Green);
+                else if (value < 66)
+                    safetyMeter.TrailBrush = new SolidColorBrush(Colors.Yellow);
+                else 
+                    safetyMeter.TrailBrush = new SolidColorBrush(Colors.Red);
+            });
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
