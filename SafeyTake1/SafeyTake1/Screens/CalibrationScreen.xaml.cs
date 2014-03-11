@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Media;
 using FaceDetectionWinPhone;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace SafeyTake1.Screens
 {
@@ -127,7 +128,10 @@ namespace SafeyTake1.Screens
                 {
                     double milliseconds = (DateTime.Now - frameStart).TotalMilliseconds;
                     // Cannot capture an image until the previous capture has completed.
+                    
+                    /* Dani comment - txtDebug made error prevented running the app.
                     txtDebug.Text = (rectangles != null) ? "No. of Eyes: " + rectangles.Count + ". It took me: " + milliseconds + " ms." : "Null Eyes";
+                    */
                     frameStart = DateTime.Now;
                 });
 
