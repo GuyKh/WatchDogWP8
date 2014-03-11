@@ -13,7 +13,7 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
-    <Grid HorizontalAlignment="Left" Background="#FF93CED1" Height="768" VerticalAlignment="Top" Width="480">
+    <Grid x:Name="pageGrid" HorizontalAlignment="Left" Background="#FF93CED1" Height="768" VerticalAlignment="Top" Width="480">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="63*"/>
             <ColumnDefinition Width="355*"/>
