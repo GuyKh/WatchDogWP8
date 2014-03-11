@@ -28,13 +28,15 @@
 
         <TextBlock x:Name="dangerDescription" Grid.Column="1" Grid.Row="0" Text="Danger" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="48" Foreground="Red" FontWeight="Bold" />
 
-        <controls:Gauge  x:Name="safetyMeter"   Unit="Danger" Margin="0"
-                          NeedleBrush="CadetBlue" TickBrush="Transparent" ScaleTickBrush="Transparent" TrailBrush="Green"
-                            UnitBrush="CadetBlue" Grid.ColumnSpan="3" Grid.RowSpan="1" Grid.Row="1" Grid.Column="0" />
+        <controls:Gauge  x:Name="safetyMeter" Value="33"  Unit="Danger" Margin="0"
+                          NeedleBrush="CadetBlue" TickBrush="Transparent" ScaleTickBrush="Transparent"
+                            UnitBrush="CadetBlue" TrailBrush="Green"
+                         Grid.ColumnSpan="3" Grid.RowSpan="1" Grid.Row="1" Grid.Column="0">
+        </controls:Gauge>
         <!--<Image x:Name="imgMeter" HorizontalAlignment="Left" Height="504" VerticalAlignment="Top" Width="460" Margin="10,0,0,0" Grid.Row="1" Source="/Resources/Color-Meter-icon.png" Grid.ColumnSpan="3" Grid.RowSpan="2"/>-->
 
         <Button x:Name="btnSettings" Content="Settings" Grid.Row="2" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="32" Margin="0,3,0,0" FontWeight="Bold" Click="btnSettings_Click"/>
-        <Button x:Name="btnExit" Content="Exit" Grid.Row="5" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontWeight="Bold" FontSize="32" Click="btnExit_Click"/>
+        <Button x:Name="btnEndDrive" Content="End Drive" Grid.Row="5" VerticalAlignment="Top" Height="89" Background="#FF3398EC" Grid.Column="1" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontWeight="Bold" FontSize="32" Click="btnExit_Click"/>
         
     </Grid>
 

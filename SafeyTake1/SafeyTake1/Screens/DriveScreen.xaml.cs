@@ -28,7 +28,7 @@ namespace SafeyTake1.Screens
 
         private void endDrive()
         {
-
+            NavigationService.Navigate(new Uri("/Screens/DriveSummaryScreen.xaml", UriKind.Relative));
         }
 
         // Volatile (one for all threads) boolean indicating if now flickering.
@@ -77,7 +77,7 @@ namespace SafeyTake1.Screens
 
         private void openSettings()
         {
-
+            NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
         }
 
         /// <summary>
@@ -136,12 +136,12 @@ namespace SafeyTake1.Screens
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
+            openSettings();
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Screens/DriveSummaryScreen.xaml", UriKind.Relative));
+            showPopupEndDrive();
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)

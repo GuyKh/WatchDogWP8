@@ -30,29 +30,37 @@ namespace SafeyTake1.Screens
 
         public static void exitApp() { }
 
-        private void openSettingsScreen() { }
+        private void openSettingsScreen() {
+            NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
+        }
 
-        private void showDriverHistory() { }
+        private void OpenDriverHistory() {
+            NavigationService.Navigate(new Uri("/Screens/DriverHistoryScreen.xaml", UriKind.Relative));
+        }
 
-        private void showFirstTimeConfiguration() { }
+        private void showFirstTimeConfiguration() {
+            NavigationService.Navigate(new Uri("/Screens/FirstTimeScreen.xaml", UriKind.Relative));
+        }
 
-        private void startDriving() { }
+        private void startDriving() {
+            NavigationService.Navigate(new Uri("/Screens/DriveScreen.xaml", UriKind.Relative));
+        }
 
         private void testFeatures() { }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
+            openSettingsScreen();
         }
 
         private void btnStartDriving_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Screens/DriveScreen.xaml", UriKind.Relative));
+            startDriving();
         }
 
         private void btnMyHistory_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Screens/DriverHistoryScreen.xaml", UriKind.Relative));
+            OpenDriverHistory();
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -64,7 +72,7 @@ namespace SafeyTake1.Screens
         {
 
             if (isFirstTime)
-                NavigationService.Navigate(new Uri("/Screens/FirstTimeScreen.xaml", UriKind.Relative));
+                showFirstTimeConfiguration();
         }
     }
 }
