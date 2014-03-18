@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SafeyTake1.Resources
+namespace WatchDOG.Resources
 {
     using System;
 
@@ -45,7 +45,7 @@ namespace SafeyTake1.Resources
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SafeyTake1.Resources.AppResources", typeof(AppResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WatchDOG.Resources.AppResources", typeof(AppResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

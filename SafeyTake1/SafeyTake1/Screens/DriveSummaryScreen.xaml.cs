@@ -7,9 +7,9 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using SafeyTake1.DataStructures;
+using WatchDOG.DataStructures;
 
-namespace SafeyTake1.Screens
+namespace WatchDOG.Screens
 {
     public partial class DriveSummaryScreen : PhoneApplicationPage
     {

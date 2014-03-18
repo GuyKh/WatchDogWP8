@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace SafeyTake1.DataStructures
+namespace WatchDOG.DataStructures
 {
     public class Settings
     {

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
-namespace SafeyTake1.Alerters
+namespace WatchDOG.Alerters
 {
     interface IAlerter
     {
@@ -19,6 +20,6 @@ namespace SafeyTake1.Alerters
         /// Will return -1 if analysis fails.
         /// </summary>
         /// <returns></returns>
-        float ProcessData();
+        float ProcessData(WriteableBitmap picture);
     }
 }

@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
-namespace SafeyTake1.Alerters
+namespace WatchDOG.Alerters
 {
     class DistanceDetectorAlerter : BackCameraAlerterAbstract
     {
-        float ProcessData()
+        
+
+        public override float ProcessData(WriteableBitmap picture)
         {
-            return 0;
+            return -1;
         }
     }
 }

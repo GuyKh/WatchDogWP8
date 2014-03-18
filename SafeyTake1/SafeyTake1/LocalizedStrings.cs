@@ -1,6 +1,6 @@
-﻿using SafeyTake1.Resources;
+﻿using WatchDOG.Resources;
 
-namespace SafeyTake1
+namespace WatchDOG
 {
     /// <summary>
     /// Provides access to string resources.

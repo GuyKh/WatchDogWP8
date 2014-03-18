@@ -8,7 +8,7 @@ using System.Windows;
 using System.IO;
 using NativeFaceDetector;
 
-namespace SafeyTake1.Logic
+namespace WatchDOG.Logic
 {
     class Face
     {

@@ -7,10 +7,10 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using SafeyTake1.Resources;
+using WatchDOG.Resources;
 using U2UC.WP8.Controls;
 
-namespace SafeyTake1
+namespace WatchDOG
 {
     public partial class MainPage : PhoneApplicationPage
     {

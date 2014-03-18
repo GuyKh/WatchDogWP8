@@ -1,16 +1,71 @@
-﻿using System;
+﻿using FaceDetectionWinPhone;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
-namespace SafeyTake1.Alerters
+namespace WatchDOG.Alerters
 {
     class EyeDetectorAlerter : FrontCameraAlerterAbstract
     {
-        override public float ProcessData()
+        #region Model Configuration
+        private const string MODEL_XML = "models\\haarcascade_eye.xml";
+
+        //The initial ratio between the size of your image and the size of the sliding window (default: 2)
+        private const float BASE_SCALE = 4.0f;   
+
+        //How much to increment your window for every iteration (default:1.25)
+        private const float SCALE_INC = 1.55f;
+
+        // How much to shif the window at each step, in terms of the % of the window size
+        private const float INCREMENT = 0.08f;
+
+        // Minimum number of overlapping face rectangles to be considered a valid face (default: 1)
+        private const int MIN_NEIGHBORS = 2;
+        #endregion 
+
+        #region Private Properties
+        private Detector detector;
+        #endregion 
+
+        #region Constructor
+        public EyeDetectorAlerter()
         {
-            return 0;
+            detector = Detector.Create(MODEL_XML);
         }
+        #endregion
+
+        #region Public Methods
+        public override float ProcessData(WriteableBitmap bitmap)
+        {
+            if (detector == null){
+                //Fail in initializing the Detector
+                return -1;
+            }
+
+
+            WriteableBitmap detectorBitmap = (new WriteableBitmap(bitmap));
+
+            List<NativeFaceDetector.Rectangle> rectangles = detector.getFaces(detectorBitmap, BASE_SCALE, SCALE_INC, INCREMENT, MIN_NEIGHBORS);
+            // Should Use different thread????
+            //var thread = new System.Threading.Thread(delegate()
+            //{
+            //    List<NativeFaceDetector.Rectangle> rectangles = detector.getFaces(detectorBitmap, 4.0f, 1.55f, 0.08f, 2);
+            //}
+
+
+            if (rectangles.Any())
+            {
+                if (rectangles.Count >= 2)
+                    return 1;
+                return 0.5f;
+            }
+            return 0;
+
+        }
+        #endregion
+
     }
 }

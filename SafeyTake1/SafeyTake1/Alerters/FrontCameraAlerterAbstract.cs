@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
-namespace SafeyTake1.Alerters
+namespace WatchDOG.Alerters
 {
-    class FrontCameraAlerterAbstract : IAlerter
+    abstract class FrontCameraAlerterAbstract : IAlerter
 {
         private void GetFrontCameraPhoto()
         {
@@ -18,10 +19,10 @@ namespace SafeyTake1.Alerters
             return false;
         }
 
-        virtual public float ProcessData() {
-            return -1;
-        }
+
+
+        abstract public float ProcessData(WriteableBitmap picture);
         
-    }
+}
     
 }

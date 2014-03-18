@@ -1,4 +1,4 @@
-﻿using SafeyTake1.DataStructures;
+﻿using WatchDOG.DataStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Phone.Tasks;
 using Microsoft.Phone.Shell;
 
-namespace SafeyTake1.Logic
+namespace WatchDOG.Logic
 {
     class DriveLogic
     {

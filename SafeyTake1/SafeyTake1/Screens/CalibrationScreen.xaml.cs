@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace SafeyTake1.Screens
+namespace WatchDOG.Screens
 {
     public partial class CalibrationScreen : PhoneApplicationPage
     {

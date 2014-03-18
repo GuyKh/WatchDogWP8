@@ -8,7 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace SafeyTake1.Screens
+namespace WatchDOG.Screens
 {
     public partial class DriverHistoryScreen : PhoneApplicationPage
     {

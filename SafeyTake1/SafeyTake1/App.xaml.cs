@@ -6,9 +6,9 @@ using System.Windows.Markup;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using SafeyTake1.Resources;
+using WatchDOG.Resources;
 
-namespace SafeyTake1
+namespace WatchDOG
 {
     public partial class App : Application
     {
