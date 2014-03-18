@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using WatchDOG.DataStructures;
 
 namespace WatchDOG.Alerters
 {
@@ -21,8 +22,10 @@ namespace WatchDOG.Alerters
 
 
 
-        abstract public float ProcessData(WriteableBitmap picture);
-        
+        abstract public double ProcessData(WriteableBitmap picture);
+
+        abstract public EAlertType GetAlerterType();
+       
 }
     
 }

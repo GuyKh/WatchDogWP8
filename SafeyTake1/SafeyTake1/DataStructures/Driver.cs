@@ -13,7 +13,7 @@ namespace WatchDOG.DataStructures
         private string _name;
         private string _username;
         private string _password;
-        private float _avgScore;
+        private double _avgScore;
         private List<AlertEvent> _driversEvents;
 
         #endregion 
@@ -35,7 +35,7 @@ namespace WatchDOG.DataStructures
             get { return _password; }
             set { _password = value; }
         }
-        public float AverageScore
+        public double AverageScore
         {
             get { return _avgScore; }
             set { _avgScore = value; }
@@ -78,7 +78,7 @@ namespace WatchDOG.DataStructures
         /// </summary>
         /// <param name="ae"></param>
         /// <returns>New Average Score of the driver</returns>
-        public float AddEvent(AlertEvent ae)
+        public double AddEvent(AlertEvent ae)
         {
             _driversEvents.Add(ae);
             recalculateAverage();

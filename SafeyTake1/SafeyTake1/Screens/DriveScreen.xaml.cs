@@ -17,6 +17,7 @@ using System.ComponentModel;
 using Microsoft.Devices;
 using System.Windows.Media.Imaging;
 using Coding4Fun.Toolkit.Controls;
+using WatchDOG.DataStructures;
 
 namespace WatchDOG.Screens
 {
@@ -53,6 +54,7 @@ namespace WatchDOG.Screens
         private DateTime _driveEndingTime;
         private List<FrontCameraAlerterAbstract> frontAlerters;
         private PhotoCamera frontCam;
+        private Drive _currentDrive;
         
         #endregion
 
@@ -85,6 +87,20 @@ namespace WatchDOG.Screens
             frontCam.CaptureThumbnailAvailable += new EventHandler<ContentReadyEventArgs>(frontCam_ThumbnailAvailable);
             
         }
+
+        private void startDrive()
+        {
+            _currentDrive = new Drive(new Driver("Name", "User", "Pass"), DateTime.Now);
+            _driveBeginingTime = DateTime.Now;
+        }
+
+        private void endDrive()
+        {
+            _currentDrive.EndTime = DateTime.Now;
+            _driveEndingTime = DateTime.Now;
+            NavigationService.Navigate(new Uri("/Screens/DriveSummaryScreen.xaml", UriKind.Relative));
+        }
+
         #endregion
 
         #region Front Camera Event Handlers
@@ -137,7 +153,19 @@ namespace WatchDOG.Screens
                 foreach (IAlerter alerter in frontAlerters)
                 {
                     alerter.GetData();
-                    alerterValues.Add(alerter.ProcessData(bitmap));
+                    
+                    double alertSafetyLevel = alerter.ProcessData(bitmap);
+
+
+
+                    if (alertSafetyLevel >= ALERT_THRESHOLD)
+                        _currentDrive.Events.Add(new AlertEvent(){ 
+                            AlertLevel = alertSafetyLevel, AlertTime=DateTime.Now, AlertType=alerter.GetAlerterType(), Driver = _currentDrive.Driver
+                        });
+                
+
+                    alerterValues.Add(alertSafetyLevel);
+                    
                 }
 
                 // Calculate the safety score (for all valid values).
@@ -324,17 +352,7 @@ namespace WatchDOG.Screens
         }
 
 
-        private void startDrive()
-        {
-            _driveBeginingTime = DateTime.Now;
-        }
-
-        private void endDrive()
-        {
-            _driveEndingTime = DateTime.Now;
-            NavigationService.Navigate(new Uri("/Screens/DriveSummaryScreen.xaml", UriKind.Relative));
-        }
-
+  
         #endregion
 
         #region Navigation Event Handlers Override
@@ -348,6 +366,7 @@ namespace WatchDOG.Screens
         {
             base.OnNavigatedFrom(e);
 
+            // Dispose camera
             if (frontCam != null)
             {
                 // Dispose camera to minimize power consumption and to expedite shutdown.
@@ -357,6 +376,10 @@ namespace WatchDOG.Screens
                 frontCam.Initialized -= frontCam_Initialized;
                 frontCam.CaptureThumbnailAvailable -= frontCam_ThumbnailAvailable;
             }
+
+            // Text is param, you can define anything instead of Text 
+            // but remember you need to further use same param.
+            PhoneApplicationService.Current.State["CurrentDrive"] = _currentDrive;
         }
 
         #endregion

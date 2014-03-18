@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using WatchDOG.DataStructures;
 
 namespace WatchDOG.Alerters
 {
@@ -38,7 +39,7 @@ namespace WatchDOG.Alerters
         #endregion
 
         #region Public Methods
-        public override float ProcessData(WriteableBitmap bitmap)
+        public override double ProcessData(WriteableBitmap bitmap)
         {
             if (detector == null){
                 //Fail in initializing the Detector
@@ -65,7 +66,15 @@ namespace WatchDOG.Alerters
             return 0;
 
         }
+
+        public override EAlertType GetAlerterType()
+        {
+            return EAlertType.EyeDetectionAlert;
+        }
         #endregion
 
+
+
+        
     }
 }

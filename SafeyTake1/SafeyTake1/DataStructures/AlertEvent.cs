@@ -14,7 +14,7 @@ namespace WatchDOG.DataStructures
         private EAlertType _alertType;
         private Driver _driver;
         private Geocoordinate _alertLocation;
-        private float _alertLevel;
+        private double _alertLevel;
 
         public DateTime AlertTime
         {
@@ -39,7 +39,7 @@ namespace WatchDOG.DataStructures
             set { _alertLocation = value; }
         }
 
-        public float AlertLevel
+        public double AlertLevel
         {
             get { return _alertLevel; }
             set { _alertLevel = value; }
