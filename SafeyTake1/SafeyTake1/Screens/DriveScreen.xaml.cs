@@ -55,7 +55,9 @@ namespace WatchDOG.Screens
         private List<FrontCameraAlerterAbstract> frontAlerters;
         private PhotoCamera frontCam;
         private Drive _currentDrive;
-        
+        private Driver _currentDriver;
+        private string _alertMessage;
+
         #endregion
 
         #region Constructor
@@ -149,41 +151,74 @@ namespace WatchDOG.Screens
                 frontCam.GetPreviewBufferArgb32(bitmap.Pixels);
 
                 // Foreach Alerter, try to analize the value.
-                List<double> alerterValues = new List<Double>();
+                List<AlertEvent> alertEvents = new List<AlertEvent>();
                 foreach (IAlerter alerter in frontAlerters)
                 {
                     alerter.GetData();
-                    
-                    double alertSafetyLevel = alerter.ProcessData(bitmap);
+
+                    AlertEvent alertEvent = new AlertEvent()
+                    {
+                        AlertLevel = alerter.ProcessData(bitmap),
+                        AlertTime = DateTime.Now,
+                        AlertType = alerter.GetAlerterType(),
+                        Driver = _currentDriver
+                    };
 
 
 
-                    if (alertSafetyLevel >= ALERT_THRESHOLD)
-                        _currentDrive.Events.Add(new AlertEvent(){ 
-                            AlertLevel = alertSafetyLevel, AlertTime=DateTime.Now, AlertType=alerter.GetAlerterType(), Driver = _currentDrive.Driver
-                        });
-                
+                    if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
+                        _currentDrive.Events.Add(alertEvent);
 
-                    alerterValues.Add(alertSafetyLevel);
+
+                    alertEvents.Add(alertEvent);
                     
                 }
 
                 // Calculate the safety score (for all valid values).
-                double res = calculateSafetyScore(alerterValues.Where(w => w != -1));
+                double res = calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel != -1));
 
                 // Update the UI
                 updateScreen(res);
             });
         }
 
-        private double calculateSafetyScore(IEnumerable<double> alerterValues)
+        private double calculateSafetyScore(IEnumerable<AlertEvent> alertEvents)
         {
             double ret = 0;
-            foreach (var value in alerterValues)
+            foreach (var alertEvent in alertEvents)
             {
-                ret += value / alerterValues.Count();
+                ret += alertEvent.AlertLevel / alertEvents.Count();
+            }
+
+            if (ret > ALERT_THRESHOLD)
+            {
+                EAlertType highestAlertType = alertEvents.OrderByDescending(_event => _event.AlertLevel).FirstOrDefault().AlertType;
+                updateTheMessageByType(highestAlertType);
+            }
+            else
+            {
+                _alertMessage = "Drive Safely";
             }
             return ret;
+        }
+
+        private void updateTheMessageByType(EAlertType highestAlertType)
+        {
+            switch (highestAlertType)
+            {
+                case EAlertType.EyeDetectionAlert:
+                    _alertMessage = "Open Your Eyes!";
+                    break;
+                case EAlertType.DistanceAlert:
+                    _alertMessage = "Keep Your Distance";
+                    break;
+                case EAlertType.LaneCrossingAlert:
+                    _alertMessage = "Keep in Your Lane";
+                    break;
+                default:
+                    _alertMessage = "Drive Safely";
+                    break;
+            }
         }
 
         #endregion
@@ -202,7 +237,10 @@ namespace WatchDOG.Screens
                 updateSafetyMeter((double)level);
 
                 if (level >= ALERT_THRESHOLD)
+                {
                     alert(ALERT_DURATION);
+                    
+                }
             });
 
         }
@@ -253,6 +291,7 @@ namespace WatchDOG.Screens
         #region Flicker Region
         // Volatile (one for all threads) boolean indicating if now flickering.
         private volatile bool flickering;
+        
 
         /// <summary>
         /// Start flickering - set flickering - true and call flicker()
