@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WatchDOG.Resources {
+namespace WatchDog.Resources {
     using System;
     
     

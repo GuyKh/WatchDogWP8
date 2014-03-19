@@ -1,22 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{3135cfa2-925e-42aa-9ec3-0f52d046441f}" Title="WatchDOG" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WatchDOG author" Description="Sample description" Publisher="WatchDOG" PublisherID="{89a6ee00-28f6-4f54-9241-0a83111f3897}">
+  <App xmlns="" ProductID="{90cf0933-db59-413a-8a1e-814e32cee6f4}" Title="WatchDOG" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WatchDog author" Description="Sample description" Publisher="WatchDog" PublisherID="{0d94b2a1-d755-4a48-a068-8443e47d10e2}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
-      <Capability Name="ID_CAP_ISV_CAMERA" />
+      <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
+      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
+      <Capability Name="ID_CAP_SENSORS" />
+      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
     </Capabilities>
     <Tasks>
-      <DefaultTask Name="_default" NavigationPage=".\Screens\StartScreen.xaml" />
+      <DefaultTask Name="_default" NavigationPage="\Screens\StartScreen.xaml" />
     </Tasks>
     <Tokens>
-      <PrimaryToken TokenID="WatchDOGToken" TaskName="_default">
+      <PrimaryToken TokenID="WatchDogToken" TaskName="_default">
         <TemplateFlip>
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
-          <Title>Watch DOG</Title>
+          <Title>WatchDog</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>

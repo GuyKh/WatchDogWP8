@@ -1,0 +1,54 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WatchDOG.Screens.DriveSummaryScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="#FF93CED1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="headline" Margin="32,8,31,7" TextWrapping="Wrap" Text="Drive Summary" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="48" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Driving Time" VerticalAlignment="Top" FontSize="35" FontWeight="Bold"/>
+        <TextBlock x:Name="txtDrivingTime" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="0:20" VerticalAlignment="Top" FontSize="35"/>
+
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Safety Score" VerticalAlignment="Top" FontSize="35" FontWeight="Bold"/>
+        <TextBlock x:Name="txtSafetyScore" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="3" TextWrapping="Wrap" Text="27" VerticalAlignment="Top" FontSize="35"/>
+
+
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="4" TextWrapping="Wrap" Text="Driver's Average Score" VerticalAlignment="Top" FontSize="35" FontWeight="Bold"/>
+        <TextBlock x:Name="txtDriverAVGScore" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="4" TextWrapping="Wrap" Text="0:20" VerticalAlignment="Top" FontSize="35"/>
+
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="Most Common Hazzard" VerticalAlignment="Top" FontSize="35" FontWeight="Bold"/>
+        <TextBlock x:Name="txtCommonHazzard" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="Distance Keeping" VerticalAlignment="Top" FontSize="35"/>
+
+
+        <Button x:Name="btnExit" Content="Exit" Margin="5" Background="#FF3398EC" Grid.Row="7" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Padding="5" Grid.Column="1" Grid.ColumnSpan="2" Click="btnExit_Click"/>
+    </Grid>
+
+</phone:PhoneApplicationPage>
