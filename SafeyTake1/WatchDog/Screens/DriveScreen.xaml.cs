@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -18,12 +19,15 @@ using Microsoft.Devices;
 using System.Windows.Media.Imaging;
 using Coding4Fun.Toolkit.Controls;
 using WatchDOG.DataStructures;
+using WatchDOG.Logic;
 
 namespace WatchDOG.Screens
 {
     public partial class DriveScreen : PhoneApplicationPage
     {
+
         #region Constants
+
         /// <summary>
         /// How long to wait between changing background colors
         /// </summary>
@@ -39,205 +43,69 @@ namespace WatchDOG.Screens
         /// </summary>
         private const int ALERT_DURATION = 500;
 
-        /// <summary>
-        /// Threshold from whatlevel up to alarm.
-        /// </summary>
-        private const double ALERT_THRESHOLD = 50;
-
         #endregion
-
 
         #region Private Properties
 
         private double _safetyLevel = 0;
-        private DateTime _driveBeginingTime;
-        private DateTime _driveEndingTime;
-        private List<FrontCameraAlerterAbstract> frontAlerters;
-        private PhotoCamera frontCam;
-        private Drive _currentDrive;
-        private Driver _currentDriver;
-        private string _alertMessage;
-
+        private Drive _currentDrive; 
+        private DriveLogic _driveLogic;
         #endregion
 
         #region Constructor
         public DriveScreen()
         {
+            _driveLogic = new DriveLogic(new Driver("Name", "User", "Pass"));
+            _driveLogic.Alert += new AlertEventHandler(UpdateScreen);
+            _driveLogic.dispatcher = this.Dispatcher;
             InitializeComponent();
 
-            frontAlerters = new List<FrontCameraAlerterAbstract>();
-            frontAlerters.Add(new EyeDetectorAlerter());
             }
 
         #endregion
 
-        #region Initialization
-        /// <summary>
-        /// Initilialize Available Cameras
-        /// </summary>
-        private void initCameras()
-        {
-            frontCam = new Microsoft.Devices.PhotoCamera(CameraType.FrontFacing);
-            if (frontCam == null)
-            {
-                ShowToastMessage("Error Starting Front Camera", "Front Camera could not be initialized"); 
-                //MessageBox.Show("ERROR: Front Camera Not Available", "Error", MessageBoxButton.OK);
-            }
+       
 
-            frontCam.Initialized += new EventHandler<Microsoft.Devices.CameraOperationCompletedEventArgs>(frontCam_Initialized);
-            frontCam.CaptureThumbnailAvailable += new EventHandler<ContentReadyEventArgs>(frontCam_ThumbnailAvailable);
-            
+        private void StartDrive()
+        {
+ 
         }
 
-        private void startDrive()
+        private void EndDrive()
         {
-            _currentDrive = new Drive(new Driver("Name", "User", "Pass"), DateTime.Now);
-            _driveBeginingTime = DateTime.Now;
-        }
-
-        private void endDrive()
-        {
+            _currentDrive = _driveLogic._currentDrive;
             _currentDrive.EndTime = DateTime.Now;
-            _driveEndingTime = DateTime.Now;
             NavigationService.Navigate(new Uri("/Screens/DriveSummaryScreen.xaml", UriKind.Relative));
         }
 
-        #endregion
+      
 
-        #region Front Camera Event Handlers
-        private void frontCam_Initialized(object sender, CameraOperationCompletedEventArgs e)
-        {
-            if (!e.Succeeded)
-            {
-                frontCam = null;
-                ShowToastMessage("Error Starting Front Camera", "Front Camera could not be initialized"); 
-                //MessageBox.Show("ERROR: Camera is not available", "ERROR", MessageBoxButton.OK);
-                return;
-            }
-
-            try
-            {
-                frontCam = (PhotoCamera)sender;
-                frontCam.Resolution = frontCam.AvailableResolutions.First();
-            }
-            catch (Exception)
-            {
-                frontCam = null;
-                ShowToastMessage("Front Camera Error", "Front Camera is not avaliable"); 
-               // MessageBox.Show("ERROR: Camera is not available", "ERROR", MessageBoxButton.OK);
-                return;
-            }
-        }
         
-        
-        private void frontCam_ThumbnailAvailable(object sender, ContentReadyEventArgs e)
-        {
 
-            this.Dispatcher.BeginInvoke(delegate()
-            {
-                if (frontCam == null)
-                {
-                    //MessageBox.Show("ERROR: Camera is not available", "ERROR", MessageBoxButton.OK);
-                    ShowToastMessage("Error Starting Front Camera", "Front Camera could not be initialized"); 
-                    return;
-                }
-                
-                // Initialize a new Bitmap image
-                WriteableBitmap bitmap = new WriteableBitmap((int)frontCam.PreviewResolution.Width,
-                                                             (int)frontCam.PreviewResolution.Height);
-                
-                // Get the bitmap from the camera
-                frontCam.GetPreviewBufferArgb32(bitmap.Pixels);
+      
 
-                // Foreach Alerter, try to analize the value.
-                List<AlertEvent> alertEvents = new List<AlertEvent>();
-                foreach (IAlerter alerter in frontAlerters)
-                {
-                    alerter.GetData();
-
-                    AlertEvent alertEvent = new AlertEvent()
-                    {
-                        AlertLevel = alerter.ProcessData(bitmap),
-                        AlertTime = DateTime.Now,
-                        AlertType = alerter.GetAlerterType(),
-                        Driver = _currentDriver
-                    };
-
-
-
-                    if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
-                        _currentDrive.Events.Add(alertEvent);
-
-
-                    alertEvents.Add(alertEvent);
-                    
-                }
-
-                // Calculate the safety score (for all valid values).
-                double res = calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel != -1));
-
-                // Update the UI
-                updateScreen(res);
-            });
-        }
-
-        private double calculateSafetyScore(IEnumerable<AlertEvent> alertEvents)
-        {
-            double ret = 0;
-            foreach (var alertEvent in alertEvents)
-            {
-                ret += alertEvent.AlertLevel / alertEvents.Count();
-            }
-
-            if (ret > ALERT_THRESHOLD)
-            {
-                EAlertType highestAlertType = alertEvents.OrderByDescending(_event => _event.AlertLevel).FirstOrDefault().AlertType;
-                updateTheMessageByType(highestAlertType);
-            }
-            else
-            {
-                _alertMessage = "Drive Safely";
-            }
-            return ret;
-        }
-
-        private void updateTheMessageByType(EAlertType highestAlertType)
-        {
-            switch (highestAlertType)
-            {
-                case EAlertType.EyeDetectionAlert:
-                    _alertMessage = "Open Your Eyes!";
-                    break;
-                case EAlertType.DistanceAlert:
-                    _alertMessage = "Keep Your Distance";
-                    break;
-                case EAlertType.LaneCrossingAlert:
-                    _alertMessage = "Keep in Your Lane";
-                    break;
-                default:
-                    _alertMessage = "Drive Safely";
-                    break;
-            }
-        }
-
-        #endregion
-        
+      
         #region UI Special Behaviors
+
         /// <summary>
         /// Perform updates to the screen: Update the UI and alert, if needed.
         /// </summary>
         /// <param name="level">Safety Meter score</param>
-        private void updateScreen(double level)
+        /// <param name="args"></param>
+        private void UpdateScreen(object sender, AlertEventHandlerArgs args)
         {
-            _safetyLevel = level;
 
-            this.Dispatcher.BeginInvoke(delegate()
+            _safetyLevel = args.Level;
+
+            dangerDescription.Text = args.Message;
+
+            Dispatcher.BeginInvoke(delegate()
             {
-                updateSafetyMeter((double)level);
+                UpdateSafetyMeter(args.Level);
 
-                if (level >= ALERT_THRESHOLD)
+                if (args.Level >= DriveLogic.ALERT_THRESHOLD)
                 {
-                    alert(ALERT_DURATION);
+                    Alert(ALERT_DURATION);
                     
                 }
             });
@@ -248,17 +116,11 @@ namespace WatchDOG.Screens
         /// Perform alert - Play sound and flicker the background
         /// </summary>
         /// <param name="duration">Duration of the flickering</param>
-        private void alert(int duration)
+        private void Alert(int duration)
         {
-            this.Dispatcher.BeginInvoke(delegate()
-            {
-                playSound();
-            });
+            this.Dispatcher.BeginInvoke(playSound);
 
-            this.Dispatcher.BeginInvoke(delegate()
-            {
-                startflickeringBackground(FLICKERING_WAIT);
-            });
+            this.Dispatcher.BeginInvoke(() => startflickeringBackground(FLICKERING_WAIT));
             Thread.Sleep(duration);
             stopFlickeringBackground();
 
@@ -269,7 +131,7 @@ namespace WatchDOG.Screens
         /// Update the Safety Gauge.
         /// </summary>
         /// <param name="value">Safety Level (0-100)</param>
-        public void updateSafetyMeter(double value)
+        public void UpdateSafetyMeter(double value)
         {
             // Update the safety meter 
             this.Dispatcher.BeginInvoke(delegate()
@@ -356,12 +218,12 @@ namespace WatchDOG.Screens
         {
             showPopupEndDrive();
         }
+        #endregion
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            Logic.DriveLogic.StartLoop();
         }
-        #endregion
+        
 
         #region Navigation
         /// <summary>
@@ -384,7 +246,7 @@ namespace WatchDOG.Screens
 
             if (result == MessageBoxResult.OK)
             {
-                endDrive();
+                EndDrive();
             }
 
         }
@@ -396,24 +258,19 @@ namespace WatchDOG.Screens
         #region Navigation Event Handlers Override
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-            initCameras();
+            Task init = new Task(_driveLogic.InitCameras);
+            init.Start();
+            init.Wait();
+
+            _driveLogic.StartLoop();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            base.OnNavigatedFrom(e);
+            _driveLogic.StopLoop();
+            _driveLogic.DisposeCameras();
 
-            // Dispose camera
-            if (frontCam != null)
-            {
-                // Dispose camera to minimize power consumption and to expedite shutdown.
-                frontCam.Dispose();
-
-                // Release memory, ensure garbage collection.
-                frontCam.Initialized -= frontCam_Initialized;
-                frontCam.CaptureThumbnailAvailable -= frontCam_ThumbnailAvailable;
-            }
+            
 
             // Text is param, you can define anything instead of Text 
             // but remember you need to further use same param.
@@ -424,18 +281,7 @@ namespace WatchDOG.Screens
 
         #region Helpers
 
-        private void ShowToastMessage(String title, String message)
-        {
-            ToastPrompt tp = new ToastPrompt();
 
-            tp.Title = title;
-            tp.Message = message;
-            tp.ImageSource = new BitmapImage(new Uri("/Assets/AlignmentGrid.png", UriKind.Relative));
-            tp.TextOrientation = System.Windows.Controls.Orientation.Vertical;
-            tp.TextWrapping = TextWrapping.Wrap;
-
-            tp.Show();
-        }
 
         #endregion
     }

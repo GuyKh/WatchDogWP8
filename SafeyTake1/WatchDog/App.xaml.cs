@@ -94,6 +94,7 @@ namespace WatchDog
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
+            Debug.WriteLine(e.ExceptionObject);
             if (Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger

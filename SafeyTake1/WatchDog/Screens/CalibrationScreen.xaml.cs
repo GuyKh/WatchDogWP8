@@ -13,6 +13,7 @@ using FaceDetectionWinPhone;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using WatchDOG.Helpers;
 
 namespace WatchDOG.Screens
 {
@@ -20,7 +21,6 @@ namespace WatchDOG.Screens
     {
         PhotoCamera cam;
         MediaLibrary library = new MediaLibrary();
-        bool PhotoTaken = false;
         Detector detector;
         DateTime frameStart;
 
@@ -49,6 +49,8 @@ namespace WatchDOG.Screens
             }
             cam.Initialized += new EventHandler<Microsoft.Devices.CameraOperationCompletedEventArgs>(cam_Initialized);
             cam.CaptureThumbnailAvailable += new EventHandler<ContentReadyEventArgs>(cam_ThumbnailAvailable);
+            viewfinderCanvas.Width = Application.Current.RootVisual.RenderSize.Width - 10;
+            overlayCanvas.Width = viewfinderCanvas.Width;
             viewfinderBrush.SetSource(cam);
         }
 
@@ -94,10 +96,13 @@ namespace WatchDOG.Screens
                                                              (int)cam.PreviewResolution.Height);
                 frameStart = DateTime.Now;
                 cam.GetPreviewBufferArgb32(bitmap.Pixels);
+                
+                bitmap = WatchDogHelper.rotateImage(bitmap, 270);
                 detectFaces(bitmap);
             });
         }
 
+        
         private void cam_ThumbnailAvailable(object sender, ContentReadyEventArgs e)
         {
             throw new NotImplementedException();
@@ -161,39 +166,13 @@ namespace WatchDOG.Screens
                         return;
 
                     cam.GetPreviewBufferArgb32(bitmap.Pixels);
+                    bitmap = WatchDogHelper.rotateImage(bitmap, 270);
                     detectFaces(bitmap);
                 });
             });
             thread.Start();
         }
 
-        // Assumes that the bitmapcontext is active
-        private void drawHeaderForBox(WriteableBitmap bitmap, int x, int y, int width, String text)
-        {
-            const int BOX_HEIGHT = 40;
-            const int BOX_WIDTH = 120;
-
-            TranslateTransform transform = new TranslateTransform();
-            transform.X = x + (width - BOX_WIDTH) / 2;
-            transform.Y = y;
-
-            Border border = new Border();
-            border.Height = BOX_HEIGHT;
-            border.Width = BOX_WIDTH;
-            border.Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0));
-
-            TextBlock textBlock = new TextBlock();
-            textBlock.FontSize = 36;
-            textBlock.TextAlignment = TextAlignment.Center;
-            textBlock.Foreground = new SolidColorBrush(Colors.White);
-            textBlock.Text = text;
-
-            border.Child = textBlock;
-            border.Arrange(new Rect(0.0, 0.0, border.Width, border.Height));
-            border.UpdateLayout();
-
-            bitmap.Render(border, transform);
-        }
 
     }
 }
