@@ -24,10 +24,10 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="30*"/>
+            <RowDefinition Height="60"/>
 
-            <RowDefinition Height="200*"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="510"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="headline" Grid.Column="1" Margin="100,8,84,7" TextWrapping="Wrap" Text="Calibration" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="48" Grid.ColumnSpan="3"/>
 
