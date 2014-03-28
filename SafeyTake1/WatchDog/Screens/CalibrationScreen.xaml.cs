@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using WatchDOG.Helpers;
+using System.Threading;
 
 namespace WatchDOG.Screens
 {
@@ -23,7 +24,7 @@ namespace WatchDOG.Screens
         MediaLibrary library = new MediaLibrary();
         Detector detector;
         DateTime frameStart;
-
+        private List<Thread> threads = new List<Thread>();
         
 
         public CalibrationScreen()
@@ -49,7 +50,7 @@ namespace WatchDOG.Screens
             }
             cam.Initialized += new EventHandler<Microsoft.Devices.CameraOperationCompletedEventArgs>(cam_Initialized);
             cam.CaptureThumbnailAvailable += new EventHandler<ContentReadyEventArgs>(cam_ThumbnailAvailable);
-            viewfinderCanvas.Width = Application.Current.RootVisual.RenderSize.Width - 10;
+            viewfinderCanvas.Width = 510 * (float)(9 / 16);
             overlayCanvas.Width = viewfinderCanvas.Width;
             viewfinderBrush.SetSource(cam);
         }
@@ -57,6 +58,11 @@ namespace WatchDOG.Screens
 
         protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
+            foreach (var thread in threads)
+            {
+                thread.Abort();
+            }
+
             if (cam != null)
             {
                 // Dispose camera to minimize power consumption and to expedite shutdown.
@@ -170,6 +176,7 @@ namespace WatchDOG.Screens
                     detectFaces(bitmap);
                 });
             });
+            threads.Add(thread);
             thread.Start();
         }
 

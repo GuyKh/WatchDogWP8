@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.Phone.Tasks;
 using Microsoft.Phone.Shell;
 using WatchDOG.Helpers;
+using CameraExplorer;
 
 
 namespace WatchDOG.Logic
@@ -30,6 +31,8 @@ namespace WatchDOG.Logic
 
         #endregion
 
+
+        #region Private Properties
         private int[] _continousSafeTime;
         private List<AlertEvent> _eventsList;
         private Speed _speed;
@@ -42,6 +45,12 @@ namespace WatchDOG.Logic
         public Dispatcher dispatcher;
         internal PhotoCaptureDevice photoCaptureDevice;
 
+        private CameraExplorer.DataContext _dataContext = CameraExplorer.DataContext.Singleton;
+
+        
+        #endregion 
+
+        #region Constructor
         public DriveLogic(Driver driver)
         {
             _currentDriver = new Driver("A", "B", "C");
@@ -51,6 +60,10 @@ namespace WatchDOG.Logic
             _currentDrive = new Drive(_currentDriver, DateTime.Now);
         }
 
+        #endregion
+
+
+        #region Public Properties
         public float Score
         {
             get { return _score; }
@@ -76,31 +89,55 @@ namespace WatchDOG.Logic
             get { return _speed; }
             set { _speed = value; }
         }
+        public event AlertEventHandler Alert;
+        #endregion
 
 
-        private float checkDistance()
-        {
-            return 0;
-        }
-
-        private float checkLane()
-        {
-            return 0;
-        }
-
-        private float checkEyes()
-        {
-            return 0;
-        }
-
-        private void createAlert() { }
 
         public void StartLoop()
         {
-            }
+            while (true)
+            {
+                _dataContext.ImageStream.Position = 0;
 
-        [ThreadStatic]
-        private bool working = false;
+                WriteableBitmap frontCamBitmap = new WriteableBitmap((int)_dataContext.Device.CaptureResolution.Width, 
+                    (int)_dataContext.Device.CaptureResolution.Height);
+                frontCamBitmap.LoadJpeg(_dataContext.ImageStream);
+
+                // Foreach Alerter, try to analize the value.
+                List<AlertEvent> alertEvents = new List<AlertEvent>();
+                foreach (IAlerter alerter in frontAlerters)
+                {
+                    alerter.GetData();
+
+                    AlertEvent alertEvent = new AlertEvent()
+                    {
+                        AlertLevel = alerter.ProcessData(frontCamBitmap),
+                        AlertTime = DateTime.Now,
+                        AlertType = alerter.GetAlerterType(),
+                        Driver = _currentDriver
+                    };
+
+
+
+                    if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
+                        _currentDrive.Events.Add(alertEvent);
+
+
+                    alertEvents.Add(alertEvent);
+                }
+
+                // Calculate the safety score (for all valid values).
+                double res = calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel != -1));
+
+                // Update the UI
+                if (Alert != null)
+                    Alert(this, new AlertEventHandlerArgs(res, _alertMessage));
+
+            }
+        }
+
+        
        
         //public void detect()
         //{
@@ -162,16 +199,14 @@ namespace WatchDOG.Logic
            
         }
 
-        public event AlertEventHandler Alert;
-
+        
+        
+        #region Safety Calculation Functions
         private double calculateSafetyScore(IEnumerable<AlertEvent> alertEvents)
         {
-            double ret = 0;
-            foreach (var alertEvent in alertEvents)
-            {
-                ret += alertEvent.AlertLevel / alertEvents.Count();
-            }
-
+            // Alert level is the Average of all alerters score
+            double ret = alertEvents.Average(alert => alert.AlertLevel); 
+            
             if (ret > ALERT_THRESHOLD)
             {
                 EAlertType highestAlertType = alertEvents.OrderByDescending(_event => _event.AlertLevel).FirstOrDefault().AlertType;
@@ -202,8 +237,12 @@ namespace WatchDOG.Logic
                     break;
             }
         }
+        #endregion
 
         #region Camera
+        [ThreadStatic]
+        private bool working = false;
+
         #region Initialization and Disposal
 
         /// <summary>
@@ -229,19 +268,36 @@ namespace WatchDOG.Logic
             //    WatchDogHelper.ShowToastMessage("Error Starting Front Camera",
             //            "Front Camera is not supported");
             //}
-
+            if (_dataContext != null)
+            {
+                await InitializeCamera(CameraSensorLocation.Front);
+                
+            }
 
             if (PhotoCaptureDevice.AvailableSensorLocations.Contains(CameraSensorLocation.Front))
             {
                 System.Collections.Generic.IReadOnlyList<Windows.Foundation.Size> SupportedResolutions =
                     PhotoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Front);
                 Windows.Foundation.Size res = PhotoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Front).First();
-                this.photoCaptureDevice = await PhotoCaptureDevice.OpenAsync(CameraSensorLocation.Front, res);
-
+                
+                photoCaptureDevice = await PhotoCaptureDevice.OpenAsync(CameraSensorLocation.Front, res);
+                await photoCaptureDevice.SetPreviewResolutionAsync(res);
                 photoCaptureDevice.PreviewFrameAvailable += photoCaptureDevice_PreviewFrameAvailable;
             }
         }
 
+        private async Task InitializeCamera(CameraSensorLocation sensorLocation)
+        {
+            Windows.Foundation.Size initialResolution = new Windows.Foundation.Size(640, 480);
+
+            PhotoCaptureDevice d = await PhotoCaptureDevice.OpenAsync(sensorLocation, initialResolution);
+
+            d.SetProperty(KnownCameraGeneralProperties.EncodeWithOrientation,
+                          d.SensorLocation == CameraSensorLocation.Back ?
+                          d.SensorRotationInDegrees : -d.SensorRotationInDegrees);
+
+            _dataContext.Device = d;
+        }
         
 
         internal void DisposeCameras()
@@ -270,9 +326,9 @@ namespace WatchDOG.Logic
         {
             if (working)
                 return;
+            working = true;
             dispatcher.BeginInvoke(delegate()
             {
-                working = true;
                 // Initialize a new Bitmap image
 
                 WriteableBitmap bitmap = new WriteableBitmap((int)sender.PreviewResolution.Width,

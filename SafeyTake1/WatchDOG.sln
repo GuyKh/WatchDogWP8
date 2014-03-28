@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio Express 2012 for Windows Phone
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneTestBox", "PhoneTestBox\PhoneTestBox.csproj", "{387AD17A-9065-47C0-9748-3F1C493FF74C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeFaceDetector", "NativeFaceDetector\NativeFaceDetector.vcxproj", "{3C43C117-38B3-4C34-B0B2-30351C24BD2D}"
@@ -12,6 +10,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "U2UC.WP8.Controls", "U2UC.WP8.Controls\U2UC.WP8.Controls.csproj", "{3BC09D88-CD3A-4074-9E05-75B7CC8E9517}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchDog", "WatchDog\WatchDog.csproj", "{90CF0933-DB59-413A-8A1E-814E32CEE6F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EBB7EFC2-0755-4649-8588-BC1A48E96EB8}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraExplorer", "camera-explorer-1.3.1\CameraExplorer\CameraExplorer.csproj", "{94F53777-5783-47B2-9BCB-CE46CCB0F219}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -266,6 +273,66 @@ Global
 		{90CF0933-DB59-413A-8A1E-814E32CEE6F4}.Release|x86.ActiveCfg = Release|x86
 		{90CF0933-DB59-413A-8A1E-814E32CEE6F4}.Release|x86.Build.0 = Release|x86
 		{90CF0933-DB59-413A-8A1E-814E32CEE6F4}.Release|x86.Deploy.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|ARM.ActiveCfg = Debug|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|ARM.Build.0 = Debug|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|ARM.Deploy.0 = Debug|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Win32.ActiveCfg = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Win32.Build.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|Win32.Deploy.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|x86.ActiveCfg = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|x86.Build.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Debug|x86.Deploy.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Any CPU.ActiveCfg = Release|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Any CPU.Build.0 = Release|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Any CPU.Deploy.0 = Release|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|ARM.ActiveCfg = Release|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|ARM.Build.0 = Release|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|ARM.Deploy.0 = Release|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Mixed Platforms.ActiveCfg = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Mixed Platforms.Build.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Mixed Platforms.Deploy.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Win32.ActiveCfg = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Win32.Build.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|Win32.Deploy.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|x86.ActiveCfg = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|x86.Build.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBox|x86.Deploy.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Any CPU.Build.0 = Debug|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Any CPU.Deploy.0 = Debug|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|ARM.ActiveCfg = Debug|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|ARM.Build.0 = Debug|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|ARM.Deploy.0 = Debug|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Mixed Platforms.ActiveCfg = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Mixed Platforms.Build.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Mixed Platforms.Deploy.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Win32.ActiveCfg = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Win32.Build.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|Win32.Deploy.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|x86.ActiveCfg = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|x86.Build.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.PhoneTestBoxDebug|x86.Deploy.0 = Debug|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|ARM.ActiveCfg = Release|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|ARM.Build.0 = Release|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|ARM.Deploy.0 = Release|ARM
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Mixed Platforms.Build.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Win32.ActiveCfg = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Win32.Build.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|Win32.Deploy.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|x86.ActiveCfg = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|x86.Build.0 = Release|x86
+		{94F53777-5783-47B2-9BCB-CE46CCB0F219}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
