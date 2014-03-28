@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Coding4Fun.Toolkit.Controls;
+using Microsoft.Phone.Shell;
 
 namespace WatchDOG.Helpers
 {
@@ -13,11 +14,11 @@ namespace WatchDOG.Helpers
     {
         public static void ShowToastMessage(String title, String message)
         {
+
             ToastPrompt tp = new ToastPrompt();
 
             tp.Title = title;
             tp.Message = message;
-            tp.ImageSource = new BitmapImage(new Uri("/Assets/AlignmentGrid.png", UriKind.Relative));
             tp.TextOrientation = System.Windows.Controls.Orientation.Vertical;
             tp.TextWrapping = TextWrapping.Wrap;
 

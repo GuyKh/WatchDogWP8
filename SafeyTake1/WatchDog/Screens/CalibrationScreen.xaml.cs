@@ -14,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using WatchDOG.Helpers;
-using System.Threading;
 
 namespace WatchDOG.Screens
 {
@@ -24,8 +23,8 @@ namespace WatchDOG.Screens
         MediaLibrary library = new MediaLibrary();
         Detector detector;
         DateTime frameStart;
-        private List<Thread> threads = new List<Thread>();
-        
+
+
 
         public CalibrationScreen()
         {
@@ -50,7 +49,8 @@ namespace WatchDOG.Screens
             }
             cam.Initialized += new EventHandler<Microsoft.Devices.CameraOperationCompletedEventArgs>(cam_Initialized);
             cam.CaptureThumbnailAvailable += new EventHandler<ContentReadyEventArgs>(cam_ThumbnailAvailable);
-            viewfinderCanvas.Width = 510 * (float)(9 / 16);
+            viewfinderCanvas.Width = 400*(1.3333);
+            
             overlayCanvas.Width = viewfinderCanvas.Width;
             viewfinderBrush.SetSource(cam);
         }
@@ -58,11 +58,6 @@ namespace WatchDOG.Screens
 
         protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
-            foreach (var thread in threads)
-            {
-                thread.Abort();
-            }
-
             if (cam != null)
             {
                 // Dispose camera to minimize power consumption and to expedite shutdown.
@@ -102,13 +97,13 @@ namespace WatchDOG.Screens
                                                              (int)cam.PreviewResolution.Height);
                 frameStart = DateTime.Now;
                 cam.GetPreviewBufferArgb32(bitmap.Pixels);
-                
+
                 bitmap = WatchDogHelper.rotateImage(bitmap, 270);
                 detectFaces(bitmap);
             });
         }
 
-        
+
         private void cam_ThumbnailAvailable(object sender, ContentReadyEventArgs e)
         {
             throw new NotImplementedException();
@@ -139,16 +134,14 @@ namespace WatchDOG.Screens
                 {
                     double milliseconds = (DateTime.Now - frameStart).TotalMilliseconds;
                     // Cannot capture an image until the previous capture has completed.
-                    
+
                     /* Dani comment - txtDebug made error prevented running the app.
                     txtDebug.Text = (rectangles != null) ? "No. of Eyes: " + rectangles.Count + ". It took me: " + milliseconds + " ms." : "Null Eyes";
                     */
                     frameStart = DateTime.Now;
                 });
 
-
-                Dispatcher.BeginInvoke(delegate()
-                {
+                this.Dispatcher.BeginInvoke(delegate() { 
                     overlayCanvas.Children.Clear();
                     foreach (var r in rectangles)
                     {
@@ -163,20 +156,44 @@ namespace WatchDOG.Screens
                         toAdd.StrokeThickness = 5;
                         overlayCanvas.Children.Add(toAdd);
                     }
-                });
+
+                    bool eyesDistanceOK = false;
+                    for (int i = 0; i < rectangles.Count; i++)
+                    {
+                        for (int j = i+1; j < rectangles.Count; j++)
+                        {
+                            if (Math.Abs(rectangles[i].y() - rectangles[j].y()) < 100)
+                                eyesDistanceOK = true;
+                        }
+                    }
+
+                    if (rectangles.Count >= 2 && eyesDistanceOK)
+                    {
+
+                       WatchDogHelper.ShowToastMessage("Success", "Two Eyes were detedted");
+                        btnPassText.Text = "Pass";
+                        btnPass.Foreground = new SolidColorBrush(Colors.White);
+                        btnPass.Background = new SolidColorBrush(Colors.Green);
+                    }
+                 });
+
 
                 this.Dispatcher.BeginInvoke(delegate()
                 {
-
                     if (cam == null)
                         return;
-
-                    cam.GetPreviewBufferArgb32(bitmap.Pixels);
-                    bitmap = WatchDogHelper.rotateImage(bitmap, 270);
-                    detectFaces(bitmap);
+                    try
+                    {
+                        cam.GetPreviewBufferArgb32(bitmap.Pixels);
+                        bitmap = WatchDogHelper.rotateImage(bitmap, 270);
+                        detectFaces(bitmap);
+                    }
+                    catch (ObjectDisposedException ex)
+                    {
+                    }
                 });
+
             });
-            threads.Add(thread);
             thread.Start();
         }
 
