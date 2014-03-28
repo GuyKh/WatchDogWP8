@@ -52,6 +52,8 @@ namespace WatchDOG.Screens
             viewfinderCanvas.Width = 400*(1.3333);
             
             overlayCanvas.Width = viewfinderCanvas.Width;
+            overlayCanvas.Height = viewfinderCanvas.Height;
+
             viewfinderBrush.SetSource(cam);
         }
 
@@ -147,8 +149,8 @@ namespace WatchDOG.Screens
                     {
                         Rectangle toAdd = new Rectangle();
                         TranslateTransform loc = new TranslateTransform();
-                        loc.X = r.x();
-                        loc.Y = r.y();
+                        loc.X = r.x() + 40 > 0 ? r.x() + 40 : r.x();
+                        loc.Y = r.y() - 50 > 0 ? r.y() - 50 : r.y();
                         toAdd.RenderTransform = loc;
                         toAdd.Width = r.width();
                         toAdd.Height = r.height();
