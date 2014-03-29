@@ -19,23 +19,37 @@ namespace WatchDOG.Screens
 {
     public partial class CalibrationScreen : PhoneApplicationPage
     {
-        PhotoCamera cam;
-        MediaLibrary library = new MediaLibrary();
-        Detector detector;
-        DateTime frameStart;
+        #region Private Properties
+        private PhotoCamera cam;
+        private MediaLibrary library = new MediaLibrary();
+        private Detector detector;
+        private DateTime frameStart;
+        #endregion
 
-
-
+        #region Constructor
         public CalibrationScreen()
         {
             InitializeComponent();
             detector = Detector.Create("models\\haarcascade_eye.xml");
         }
+        #endregion
+
 
         private void setGPSToggle(bool ticked)
         {
             checkGPS.IsChecked = ticked;
         }
+
+        #region Navigation Methods
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.NavigationService.CanGoBack)
+                // Try going to the previous screen first
+                this.NavigationService.GoBack();
+            else
+                NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
+        }
+
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
@@ -48,7 +62,6 @@ namespace WatchDOG.Screens
 
             }
             cam.Initialized += new EventHandler<Microsoft.Devices.CameraOperationCompletedEventArgs>(cam_Initialized);
-            cam.CaptureThumbnailAvailable += new EventHandler<ContentReadyEventArgs>(cam_ThumbnailAvailable);
             viewfinderCanvas.Width = 400*(1.3333);
             
             overlayCanvas.Width = viewfinderCanvas.Width;
@@ -67,10 +80,11 @@ namespace WatchDOG.Screens
 
                 // Release memory, ensure garbage collection.
                 cam.Initialized -= cam_Initialized;
-                cam.CaptureThumbnailAvailable -= cam_ThumbnailAvailable;
             }
         }
+        #endregion
 
+        #region Camera Methods
         private void cam_Initialized(object sender, CameraOperationCompletedEventArgs e)
         {
             if (!e.Succeeded)
@@ -104,25 +118,7 @@ namespace WatchDOG.Screens
                 detectFaces(bitmap);
             });
         }
-
-
-        private void cam_ThumbnailAvailable(object sender, ContentReadyEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void setInternetToggle(bool ticked)
-        {
-            checkInternet.IsChecked = ticked;
-        }
-
-
-
-        private void btnBack_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
-        }
-
+        
         private void detectFaces(WriteableBitmap bitmap)
         {
             // The user sees a transposed image in the viewfinder, transpose the image for face detection as well.
@@ -143,7 +139,8 @@ namespace WatchDOG.Screens
                     frameStart = DateTime.Now;
                 });
 
-                this.Dispatcher.BeginInvoke(delegate() { 
+                this.Dispatcher.BeginInvoke(delegate()
+                {
                     overlayCanvas.Children.Clear();
                     foreach (var r in rectangles)
                     {
@@ -162,7 +159,7 @@ namespace WatchDOG.Screens
                     bool eyesDistanceOK = false;
                     for (int i = 0; i < rectangles.Count; i++)
                     {
-                        for (int j = i+1; j < rectangles.Count; j++)
+                        for (int j = i + 1; j < rectangles.Count; j++)
                         {
                             if (Math.Abs(rectangles[i].y() - rectangles[j].y()) < 100)
                                 eyesDistanceOK = true;
@@ -172,12 +169,12 @@ namespace WatchDOG.Screens
                     if (rectangles.Count >= 2 && eyesDistanceOK)
                     {
 
-                       WatchDogHelper.ShowToastMessage("Success", "Two Eyes were detedted");
+                        WatchDogHelper.ShowToastMessage("Success", "Two Eyes were detedted");
                         btnPassText.Text = "Pass";
                         btnPass.Foreground = new SolidColorBrush(Colors.White);
                         btnPass.Background = new SolidColorBrush(Colors.Green);
                     }
-                 });
+                });
 
 
                 this.Dispatcher.BeginInvoke(delegate()
@@ -190,7 +187,7 @@ namespace WatchDOG.Screens
                         bitmap = WatchDogHelper.rotateImage(bitmap, 270);
                         detectFaces(bitmap);
                     }
-                    catch (ObjectDisposedException ex)
+                    catch (ObjectDisposedException)
                     {
                     }
                 });
@@ -198,7 +195,19 @@ namespace WatchDOG.Screens
             });
             thread.Start();
         }
+        
 
+        #endregion
+
+
+        private void setInternetToggle(bool ticked)
+        {
+            checkInternet.IsChecked = ticked;
+        }
+
+
+
+       
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 using Microsoft.Phone.Tasks;
 using Microsoft.Phone.Shell;
 using WatchDOG.Helpers;
-using CameraExplorer;
+using WatchDOG.Screens;
 
 
 namespace WatchDOG.Logic
@@ -29,23 +30,18 @@ namespace WatchDOG.Logic
         /// </summary>
         public const double ALERT_THRESHOLD = 50;
 
+        public const int DURATION_INTERVAL = 1000;
+
         #endregion
 
 
         #region Private Properties
-        private int[] _continousSafeTime;
-        private List<AlertEvent> _eventsList;
-        private Speed _speed;
-        private float _score;
+
         private List<FrontCameraAlerterAbstract> frontAlerters;
-        //internal PhotoCamera frontCam;
         internal Drive _currentDrive;
         private Driver _currentDriver;
         private string _alertMessage;
-        public Dispatcher dispatcher;
-        internal PhotoCaptureDevice photoCaptureDevice;
 
-        private CameraExplorer.DataContext _dataContext = CameraExplorer.DataContext.Singleton;
 
         
         #endregion 
@@ -64,140 +60,59 @@ namespace WatchDOG.Logic
 
 
         #region Public Properties
-        public float Score
+
+        public float Score { get; set; }
+
+        public int[] ContinousSafeTime { get; set; }
+
+
+        internal List<AlertEvent> EventsList { get; set; }
+
+
+        public Speed Speed { get; set; }
+
+        public string AlertMessage
         {
-            get { return _score; }
-            set { _score = value; }
+            get { return _alertMessage; }
         }
 
-        public int[] ContinousSafeTime
-        {
-            get { return _continousSafeTime; }
-            set { _continousSafeTime = value; }
-        }
-
-
-        internal List<AlertEvent> EventsList
-        {
-            get { return _eventsList; }
-            set { _eventsList = value; }
-        }
-
-
-        public Speed Speed
-        {
-            get { return _speed; }
-            set { _speed = value; }
-        }
-        public event AlertEventHandler Alert;
         #endregion
 
 
 
-        public void StartLoop()
+
+
+
+        public double AnalyzeFrontPicture(WriteableBitmap bitmap)
         {
-            while (true)
+        // Foreach Alerter, try to analize the value.
+            List<AlertEvent> alertEvents = new List<AlertEvent>();
+            foreach (IAlerter alerter in frontAlerters)
             {
-                _dataContext.ImageStream.Position = 0;
+                alerter.GetData();
 
-                WriteableBitmap frontCamBitmap = new WriteableBitmap((int)_dataContext.Device.CaptureResolution.Width, 
-                    (int)_dataContext.Device.CaptureResolution.Height);
-                frontCamBitmap.LoadJpeg(_dataContext.ImageStream);
-
-                // Foreach Alerter, try to analize the value.
-                List<AlertEvent> alertEvents = new List<AlertEvent>();
-                foreach (IAlerter alerter in frontAlerters)
+                AlertEvent alertEvent = new AlertEvent()
                 {
-                    alerter.GetData();
-
-                    AlertEvent alertEvent = new AlertEvent()
-                    {
-                        AlertLevel = alerter.ProcessData(frontCamBitmap),
-                        AlertTime = DateTime.Now,
-                        AlertType = alerter.GetAlerterType(),
-                        Driver = _currentDriver
-                    };
+                    AlertLevel = alerter.ProcessData(bitmap),
+                    AlertTime = DateTime.Now,
+                    AlertType = alerter.GetAlerterType(),
+                    Driver = _currentDriver
+                };
 
 
+                if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
+                    _currentDrive.Events.Add(alertEvent);
 
-                    if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
-                        _currentDrive.Events.Add(alertEvent);
 
-
-                    alertEvents.Add(alertEvent);
-                }
-
-                // Calculate the safety score (for all valid values).
-                double res = calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel != -1));
-
-                // Update the UI
-                if (Alert != null)
-                    Alert(this, new AlertEventHandlerArgs(res, _alertMessage));
-
+                alertEvents.Add(alertEvent);
             }
-        }
 
-        
-       
-        //public void detect()
-        //{
+            // Calculate the safety score (for all valid values).
+            return calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel >= 0));
+
             
-        //    if (working)
-        //        return;
-        //    dispatcher.BeginInvoke(delegate()
-        //    {
-        //        working = true;
-        //        // Initialize a new Bitmap image
-        //        WriteableBitmap bitmap = new WriteableBitmap((int) frontCam.PreviewResolution.Width,
-        //            (int) frontCam.PreviewResolution.Height);
-
-        //        // Get the bitmap from the camera
-        //        frontCam.GetPreviewBufferArgb32(bitmap.Pixels);
-
-        //        bitmap = WatchDogHelper.rotateImage(bitmap, 270);
-
-        //        // Foreach Alerter, try to analize the value.
-        //        List<AlertEvent> alertEvents = new List<AlertEvent>();
-        //        foreach (IAlerter alerter in frontAlerters)
-        //        {
-        //            alerter.GetData();
-
-        //            AlertEvent alertEvent = new AlertEvent()
-        //            {
-        //                AlertLevel = alerter.ProcessData(bitmap),
-        //                AlertTime = DateTime.Now,
-        //                AlertType = alerter.GetAlerterType(),
-        //                Driver = _currentDriver
-        //            };
-
-
-
-        //            if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
-        //                _currentDrive.Events.Add(alertEvent);
-
-
-        //            alertEvents.Add(alertEvent);
-        //        }
-
-        //        // Calculate the safety score (for all valid values).
-        //        double res = calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel != -1));
-
-        //        // Update the UI
-        //        if (Alert != null)
-        //            Alert(this, new AlertEventHandlerArgs(res, _alertMessage));
-
-        //        working = false;
-        //    }
-        //);
-
-       
-        //}
-
-
-        public void StopLoop()
-        {
-           
         }
+
 
         
         
@@ -238,228 +153,6 @@ namespace WatchDOG.Logic
             }
         }
         #endregion
-
-        #region Camera
-        [ThreadStatic]
-        private bool working = false;
-
-        #region Initialization and Disposal
-
-        /// <summary>
-        /// Initilialize Available Cameras
-        /// </summary>
-        internal async void InitCameras()
-        {
-            //if (Camera.IsCameraTypeSupported(CameraType.FrontFacing))
-            //{
-
-            //    frontCam = new Microsoft.Devices.PhotoCamera(CameraType.FrontFacing);
-            //    if (frontCam == null)
-            //    {
-            //        WatchDogHelper.ShowToastMessage("Error Starting Front Camera",
-            //            "Front Camera could not be initialized");
-            //        //MessageBox.Show("ERROR: Front Camera Not Available", "Error", MessageBoxButton.OK);
-            //    }
-
-            //    //frontCam.Initialized += frontCam_Initialized;
-            //}
-            //else
-            //{
-            //    WatchDogHelper.ShowToastMessage("Error Starting Front Camera",
-            //            "Front Camera is not supported");
-            //}
-            if (_dataContext != null)
-            {
-                await InitializeCamera(CameraSensorLocation.Front);
-                
-            }
-
-            if (PhotoCaptureDevice.AvailableSensorLocations.Contains(CameraSensorLocation.Front))
-            {
-                System.Collections.Generic.IReadOnlyList<Windows.Foundation.Size> SupportedResolutions =
-                    PhotoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Front);
-                Windows.Foundation.Size res = PhotoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Front).First();
-                
-                photoCaptureDevice = await PhotoCaptureDevice.OpenAsync(CameraSensorLocation.Front, res);
-                await photoCaptureDevice.SetPreviewResolutionAsync(res);
-                photoCaptureDevice.PreviewFrameAvailable += photoCaptureDevice_PreviewFrameAvailable;
-            }
-        }
-
-        private async Task InitializeCamera(CameraSensorLocation sensorLocation)
-        {
-            Windows.Foundation.Size initialResolution = new Windows.Foundation.Size(640, 480);
-
-            PhotoCaptureDevice d = await PhotoCaptureDevice.OpenAsync(sensorLocation, initialResolution);
-
-            d.SetProperty(KnownCameraGeneralProperties.EncodeWithOrientation,
-                          d.SensorLocation == CameraSensorLocation.Back ?
-                          d.SensorRotationInDegrees : -d.SensorRotationInDegrees);
-
-            _dataContext.Device = d;
-        }
-        
-
-        internal void DisposeCameras()
-        {
-            //// Dispose camera
-            //if (frontCam != null)
-            //{
-            //    // Dispose camera to minimize power consumption and to expedite shutdown.
-            //    frontCam.Dispose();
-
-            //    // Release memory, ensure garbage collection.
-            //    //frontCam.Initialized -= frontCam_Initialized;
-            //    //frontCam.CaptureThumbnailAvailable -= frontCam_ThumbnailAvailable;
-            //}
-
-            if (photoCaptureDevice != null)
-            {
-                photoCaptureDevice.Dispose();
-                photoCaptureDevice.PreviewFrameAvailable -= photoCaptureDevice_PreviewFrameAvailable;
-            }
-        }
-        #endregion
-
-        #region Front Camera Event Handlers
-        private void photoCaptureDevice_PreviewFrameAvailable(ICameraCaptureDevice sender, object args)
-        {
-            if (working)
-                return;
-            working = true;
-            dispatcher.BeginInvoke(delegate()
-            {
-                // Initialize a new Bitmap image
-
-                WriteableBitmap bitmap = new WriteableBitmap((int)sender.PreviewResolution.Width,
-                    (int)sender.PreviewResolution.Height);
-
-                // Get the bitmap from the camera
-                sender.GetPreviewBufferArgb(bitmap.Pixels);
-
-                bitmap = WatchDogHelper.rotateImage(bitmap, 270);
-
-                // Foreach Alerter, try to analize the value.
-                List<AlertEvent> alertEvents = new List<AlertEvent>();
-                foreach (IAlerter alerter in frontAlerters)
-                {
-                    alerter.GetData();
-
-                    AlertEvent alertEvent = new AlertEvent()
-                    {
-                        AlertLevel = alerter.ProcessData(bitmap),
-                        AlertTime = DateTime.Now,
-                        AlertType = alerter.GetAlerterType(),
-                        Driver = _currentDriver
-                    };
-
-
-
-                    if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
-                        _currentDrive.Events.Add(alertEvent);
-
-
-                    alertEvents.Add(alertEvent);
-                }
-
-                // Calculate the safety score (for all valid values).
-                double res = calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel != -1));
-
-                // Update the UI
-                if (Alert != null)
-                    Alert(this, new AlertEventHandlerArgs(res, _alertMessage));
-
-                working = false;
-            }
-
-        );
-        }
-
-
-        /* Doesn't Work :(
-        private void frontCam_Initialized(object sender, CameraOperationCompletedEventArgs e)
-        {
-            if (!e.Succeeded)
-            {
-                frontCam = null;
-                WatchDogHelper.ShowToastMessage("Error Starting Front Camera", "Front Camera could not be initialized");
-                //MessageBox.Show("ERROR: Camera is not available", "ERROR", MessageBoxButton.OK);
-                return;
-            }
-
-            try
-            {
-                frontCam = (PhotoCamera)sender;
-                frontCam.Resolution = frontCam.AvailableResolutions.First();
-            }
-            catch (Exception)
-            {
-                frontCam = null;
-                WatchDogHelper.ShowToastMessage("Front Camera Error", "Front Camera is not avaliable");
-                // MessageBox.Show("ERROR: Camera is not available", "ERROR", MessageBoxButton.OK);
-                return;
-            }
-
-            detect();
-
-            
-        }
-
-
-        private void frontCam_ThumbnailAvailable(object sender, ContentReadyEventArgs e)
-        {
-            if (frontCam == null)
-            {
-                //MessageBox.Show("ERROR: Camera is not available", "ERROR", MessageBoxButton.OK);
-                WatchDogHelper.ShowToastMessage("Error Starting Front Camera", "Front Camera could not be initialized");
-                return;
-            }
-
-            // Initialize a new Bitmap image
-            WriteableBitmap bitmap = new WriteableBitmap((int)frontCam.PreviewResolution.Width,
-                                                            (int)frontCam.PreviewResolution.Height);
-
-            // Get the bitmap from the camera
-            frontCam.GetPreviewBufferArgb32(bitmap.Pixels);
-            
-            bitmap = WatchDogHelper.rotateImage(bitmap, 270);
-
-            // Foreach Alerter, try to analize the value.
-            List<AlertEvent> alertEvents = new List<AlertEvent>();
-            foreach (IAlerter alerter in frontAlerters)
-            {
-                alerter.GetData();
-
-                AlertEvent alertEvent = new AlertEvent()
-                {
-                    AlertLevel = alerter.ProcessData(bitmap),
-                    AlertTime = DateTime.Now,
-                    AlertType = alerter.GetAlerterType(),
-                    Driver = _currentDriver
-                };
-
-
-
-                if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
-                    _currentDrive.Events.Add(alertEvent);
-
-
-                alertEvents.Add(alertEvent);
-
-            }
-
-            // Calculate the safety score (for all valid values).
-            double res = calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel != -1));
-
-            // Update the UI
-            if (Alert != null) 
-                Alert(this, new AlertEventHandlerArgs(res, _alertMessage));
-        }
-          
-         */
-        #endregion
-        #endregion
-
 
     }
 

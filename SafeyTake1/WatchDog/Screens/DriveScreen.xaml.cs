@@ -56,8 +56,6 @@ namespace WatchDOG.Screens
         public DriveScreen()
         {
             _driveLogic = new DriveLogic(new Driver("Name", "User", "Pass"));
-            _driveLogic.Alert += new AlertEventHandler(UpdateScreen);
-            _driveLogic.dispatcher = this.Dispatcher;
             InitializeComponent();
 
             }
@@ -68,11 +66,17 @@ namespace WatchDOG.Screens
 
         private void StartDrive()
         {
- 
+            pumpARGBFrames = true;
+            ARGBFramesThread = new System.Threading.Thread(PumpARGBFrames);
+
+            wb = new WriteableBitmap((int)cam.PreviewResolution.Width, (int)cam.PreviewResolution.Height);
+            // Start pump.
+            ARGBFramesThread.Start();
         }
 
         private void EndDrive()
         {
+            pumpARGBFrames = false;
             _currentDrive = _driveLogic._currentDrive;
             _currentDrive.EndTime = DateTime.Now;
             NavigationService.Navigate(new Uri("/Screens/DriveSummaryScreen.xaml", UriKind.Relative));
@@ -92,23 +96,23 @@ namespace WatchDOG.Screens
         /// </summary>
         /// <param name="level">Safety Meter score</param>
         /// <param name="args"></param>
-        private void UpdateScreen(object sender, AlertEventHandlerArgs args)
+        private void UpdateScreen(double score, string message)
         {
 
-            _safetyLevel = args.Level;
+            _safetyLevel = score;
 
-            dangerDescription.Text = args.Message;
-
-            Dispatcher.BeginInvoke(delegate()
+            this.Dispatcher.BeginInvoke(delegate()
             {
-                UpdateSafetyMeter(args.Level);
+                dangerDescription.Text = message;
+            });
 
-                if (args.Level >= DriveLogic.ALERT_THRESHOLD)
+            UpdateSafetyMeter(score);
+
+            if (score >= DriveLogic.ALERT_THRESHOLD)
                 {
                     Alert(ALERT_DURATION);
                     
                 }
-            });
 
         }
 
@@ -258,17 +262,37 @@ namespace WatchDOG.Screens
         #region Navigation Event Handlers Override
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Task init = new Task(_driveLogic.InitCameras);
-            init.Start();
-            init.Wait();
+            // Check to see if the camera is available on the phone.
+            if (PhotoCamera.IsCameraTypeSupported(CameraType.FrontFacing) == true)
+            {
+                // Initialize the default camera.
+                cam = new Microsoft.Devices.PhotoCamera(CameraType.FrontFacing);
+                
+                cam.Initialized += CamOnInitialized;
 
-            _driveLogic.StartLoop();
+                viewfinderCanvas.Visibility = Visibility.Collapsed;
+                //Set the VideoBrush source to the camera
+                viewfinderBrush.SetSource(cam);
+
+            }
+        }
+
+        private void CamOnInitialized(object sender, CameraOperationCompletedEventArgs cameraOperationCompletedEventArgs)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(StartDrive);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            _driveLogic.StopLoop();
-            _driveLogic.DisposeCameras();
+            if (cam != null)
+            {
+                // Dispose camera to minimize power consumption and to expedite shutdown.
+                cam.Dispose();
+
+
+                // Release memory, ensure garbage collection.
+                cam.Initialized -= CamOnInitialized;
+            }
 
             
 
@@ -278,6 +302,56 @@ namespace WatchDOG.Screens
         }
 
         #endregion
+
+
+        #region Camera
+        // Variables
+        PhotoCamera cam = new PhotoCamera();
+        private static ManualResetEvent pauseFramesEvent = new ManualResetEvent(true);
+        private WriteableBitmap wb;
+        private Thread ARGBFramesThread;
+        private bool pumpARGBFrames;
+
+
+        // ARGB frame pump
+        void PumpARGBFrames()
+        {
+            // Create capture buffer.
+            int[] ARGBPx = new int[(int)cam.PreviewResolution.Width * (int)cam.PreviewResolution.Height];
+
+            try
+            {
+                PhotoCamera phCam = (PhotoCamera)cam;
+
+                while (pumpARGBFrames)
+                {
+                    pauseFramesEvent.WaitOne();
+
+                    // Copies the current viewfinder frame into a buffer for further manipulation.
+                    phCam.GetPreviewBufferArgb32(ARGBPx);
+
+
+                    pauseFramesEvent.Reset();
+                   
+                    // Copy to WriteableBitmap.
+                    ARGBPx.CopyTo(wb.Pixels, 0);
+
+                    double score = _driveLogic.AnalyzeFrontPicture(wb);
+
+                    UpdateScreen(score, _driveLogic.AlertMessage);
+                    pauseFramesEvent.Set();
+                    
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        #endregion
+
 
         #region Helpers
 

@@ -47,17 +47,10 @@ namespace WatchDOG.Alerters
             }
 
 
-            WriteableBitmap detectorBitmap = (new WriteableBitmap(bitmap));
+            //WriteableBitmap detectorBitmap = (new WriteableBitmap(bitmap));
 
-            //List<NativeFaceDetector.Rectangle> rectangles = detector.getFaces(detectorBitmap, BASE_SCALE, SCALE_INC, INCREMENT, MIN_NEIGHBORS);
             // Should Use different thread????
-            List<NativeFaceDetector.Rectangle> rectangles = new List<NativeFaceDetector.Rectangle>();
-            var thread = new System.Threading.Thread(delegate()
-            {
-                rectangles = detector.getFaces(detectorBitmap, 4.0f, 1.55f, 0.08f, 2);
-
-            });
-            thread.Start();
+            List<NativeFaceDetector.Rectangle> rectangles = detector.getFaces(bitmap, BASE_SCALE, SCALE_INC, INCREMENT, MIN_NEIGHBORS);
 
             if (rectangles.Any())
             {
