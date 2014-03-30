@@ -32,6 +32,8 @@ namespace WatchDOG.Screens
             if (this.NavigationService.CanGoBack)
                 // Try going to the previous screen first
                 this.NavigationService.GoBack();
+            else
+                NavigationService.Navigate(new Uri("/Screens/StartScreen.xaml", UriKind.Relative));
             
         }
     }
