@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using WatchDOG.Helpers;
+using System.Device.Location;
+using Windows.Devices.Geolocation;
 
 namespace WatchDOG.Screens
 {
@@ -24,6 +26,7 @@ namespace WatchDOG.Screens
         private MediaLibrary library = new MediaLibrary();
         private Detector detector;
         private DateTime frameStart;
+        private Boolean GPSEnabled = true;
         #endregion
 
         #region Constructor
@@ -31,6 +34,8 @@ namespace WatchDOG.Screens
         {
             InitializeComponent();
             detector = Detector.Create("models\\haarcascade_eye.xml");
+            GPSEnabled = isGPSEnabled();
+            setGPSToggle(GPSEnabled);
         }
         #endregion
 
@@ -38,6 +43,17 @@ namespace WatchDOG.Screens
         private void setGPSToggle(bool ticked)
         {
             checkGPS.IsChecked = ticked;
+        }
+
+        private Boolean isGPSEnabled()
+        {
+            Geolocator geolocator = new Geolocator();
+
+            if (geolocator.LocationStatus == PositionStatus.Disabled)
+            {
+                return false;
+            }
+            return true;
         }
 
         #region Navigation Methods
