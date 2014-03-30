@@ -48,12 +48,7 @@ namespace WatchDOG.Screens
         private Boolean isGPSEnabled()
         {
             Geolocator geolocator = new Geolocator();
-
-            if (geolocator.LocationStatus == PositionStatus.Disabled)
-            {
-                return false;
-            }
-            return true;
+            return !(geolocator.LocationStatus == PositionStatus.Disabled);
         }
 
         #region Navigation Methods

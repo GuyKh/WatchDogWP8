@@ -17,6 +17,9 @@ using Microsoft.Phone.Tasks;
 using Microsoft.Phone.Shell;
 using WatchDOG.Helpers;
 using WatchDOG.Screens;
+using System.Device.Location;
+using Windows.Devices.Geolocation;
+using System.IO.IsolatedStorage;
 
 
 namespace WatchDOG.Logic
@@ -41,6 +44,8 @@ namespace WatchDOG.Logic
         internal Drive _currentDrive;
         private Driver _currentDriver;
         private string _alertMessage;
+        private Boolean GPSEnabled;
+        private Geocoordinate myLocation;
 
 
         
@@ -58,6 +63,58 @@ namespace WatchDOG.Logic
 
         #endregion
 
+        private Boolean isGPSEnabled()
+        {
+            Geolocator geolocator = new Geolocator();
+            return !(geolocator.LocationStatus == PositionStatus.Disabled);
+        }
+
+        
+        
+
+        //Option #1
+        async private void getLocation()
+        {
+            Geolocator geolocator = new Geolocator();
+            Geoposition geoposition = await geolocator.GetGeopositionAsync();
+            myLocation = geoposition.Coordinate;
+
+        }
+
+        /*
+        //Option #2
+        private void GetCoordinate()
+        {
+            GeoCoordinateWatcher watcher;
+            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High)
+            {
+                MovementThreshold = 1
+            };
+            watcher.Start();
+        }
+        */
+
+
+        /*
+        //Option 3
+        private async void OneShotLocation_Click(object sender, RoutedEventArgs e)
+        {
+
+            Geolocator geolocator = new Geolocator();
+            geolocator.DesiredAccuracyInMeters = 50;
+
+            
+            Geoposition geoposition = await geolocator.GetGeopositionAsync(
+                maximumAge: TimeSpan.FromMinutes(5),
+                timeout: TimeSpan.FromSeconds(10)
+                );
+
+            LatitudeTextBlock.Text = geoposition.Coordinate.Latitude.ToString("0.00");
+            LongitudeTextBlock.Text = geoposition.Coordinate.Longitude.ToString("0.00");
+            
+            
+        }
+        */
 
         #region Public Properties
 
@@ -97,10 +154,12 @@ namespace WatchDOG.Logic
                     AlertTime = DateTime.Now,
                     AlertType = alerter.GetAlerterType(),
                     Driver = _currentDriver
+
                 };
 
 
                 if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
+                    if (GPSEnabled) alertEvent.AlertLocation = myLocation;
                     _currentDrive.Events.Add(alertEvent);
 
 
