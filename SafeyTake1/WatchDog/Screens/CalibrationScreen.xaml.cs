@@ -96,14 +96,18 @@ namespace WatchDOG.Screens
 
         protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
-            if (cam != null)
+            try
             {
-                // Dispose camera to minimize power consumption and to expedite shutdown.
-                cam.Dispose();
+                if (cam != null)
+                {
+                    // Dispose camera to minimize power consumption and to expedite shutdown.
+                    cam.Dispose();
 
-                // Release memory, ensure garbage collection.
-                cam.Initialized -= cam_Initialized;
+                    // Release memory, ensure garbage collection.
+                    cam.Initialized -= cam_Initialized;
+                }
             }
+            catch (Exception) { }
         }
         #endregion
 

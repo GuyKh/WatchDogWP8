@@ -332,6 +332,8 @@ namespace WatchDOG.Screens
                 {
                     pauseFramesEvent.WaitOne();
 
+                    var startTime = DateTime.Now;
+
                     // Copies the current viewfinder frame into a buffer for further manipulation.
                     phCam.GetPreviewBufferArgb32(ARGBPx);
 
@@ -342,6 +344,11 @@ namespace WatchDOG.Screens
                     ARGBPx.CopyTo(wb.Pixels, 0);
 
                     double score = _driveLogic.AnalyzeFrontPicture(wb);
+
+                    this.Dispatcher.BeginInvoke(delegate()
+                        {
+                            debugTxt.Text = string.Format("Processing Time: {0} milliseconds", DateTime.Now.Subtract(startTime).TotalMilliseconds);
+                        });
 
                     UpdateScreen(score, _driveLogic.AlertMessage);
                     pauseFramesEvent.Set();

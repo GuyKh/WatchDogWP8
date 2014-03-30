@@ -45,7 +45,7 @@ namespace WatchDOG.Logic
         private Driver _currentDriver;
         private string _alertMessage;
         private Boolean GPSEnabled;
-        private Geocoordinate myLocation;
+        private Geoposition myLocation;
 
 
         
@@ -59,6 +59,8 @@ namespace WatchDOG.Logic
             frontAlerters.Add(new EyeDetectorAlerter());
 
             _currentDrive = new Drive(_currentDriver, DateTime.Now);
+
+
         }
 
         #endregion
@@ -73,21 +75,13 @@ namespace WatchDOG.Logic
         
 
         //Option #1
-        async private void getLocation()
+        private Task<Geoposition> getLocationTask()
         {
             Geolocator geolocator = new Geolocator();
-            try
-            {
-                Geoposition geoposition = await geolocator.GetGeopositionAsync(
-                    maximumAge: TimeSpan.FromMinutes(5),
+            return geolocator.GetGeopositionAsync(maximumAge: TimeSpan.FromMinutes(5),
                     timeout: TimeSpan.FromSeconds(10)
-                );
-                myLocation = geoposition.Coordinate;
-            }
-            catch (Exception ex)
-            {
-                myLocation = null;
-            }
+                ).AsTask<Geoposition>();
+
         }
 
         /*
@@ -169,15 +163,21 @@ namespace WatchDOG.Logic
 
                 if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
                 {
-                    if (GPSEnabled)
+                    if (isGPSEnabled())
                     {
-                        getLocation();
-                        alertEvent.AlertLocation = myLocation;
+                        var task = Task.Run(async () => { myLocation = await getLocationTask(); });
+                        task.Wait(); 
+                        
+                        
+                        alertEvent.AlertLocation = myLocation.Coordinate;
+                        myLocation = null;
                     }
                     _currentDrive.Events.Add(alertEvent);
+
+                    alertEvents.Add(alertEvent);
                 }
 
-                alertEvents.Add(alertEvent);
+                
             }
 
             // Calculate the safety score (for all valid values).
@@ -193,7 +193,7 @@ namespace WatchDOG.Logic
         private double calculateSafetyScore(IEnumerable<AlertEvent> alertEvents)
         {
             // Alert level is the Average of all alerters score
-            double ret = alertEvents.Average(alert => alert.AlertLevel); 
+            double ret = alertEvents.Count() > 0 ? alertEvents.Average(alert => alert.AlertLevel) : 0; 
             
             if (ret > ALERT_THRESHOLD)
             {
