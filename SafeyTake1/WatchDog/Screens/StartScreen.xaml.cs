@@ -13,23 +13,20 @@ namespace WatchDOG.Screens
 {
     public partial class StartScreen : PhoneApplicationPage
     {
-        // New Comment.
-        private static Settings _mySettings;
+        #region Private Properties
         public static bool isFirstTime=true;
+        #endregion
 
-        public static Settings MySettings
-        {
-            get { return _mySettings; }
-            set { _mySettings = value; }
-        }
-
+        #region Constructor
         public StartScreen()
         {
+            Settings.LoadSettingsFromDisk();
+            isFirstTime = Settings.Loaded;
             InitializeComponent();
         }
+        #endregion
 
-        public static void exitApp() { }
-
+        #region Navigation Methods
         private void openSettingsScreen() {
             NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));
         }
@@ -42,12 +39,13 @@ namespace WatchDOG.Screens
             NavigationService.Navigate(new Uri("/Screens/FirstTimeScreen.xaml", UriKind.Relative));
         }
 
-        private void startDriving() {
+        private void startDriving()
+        {
             NavigationService.Navigate(new Uri("/Screens/DriveScreen.xaml", UriKind.Relative));
         }
+        #endregion
 
-        private void testFeatures() { }
-
+        #region Button Behaviors
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             openSettingsScreen();
@@ -67,12 +65,15 @@ namespace WatchDOG.Screens
         {
             Application.Current.Terminate();
         }
+        #endregion
 
+        #region Overriding Functions 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
 
             if (isFirstTime)
                 showFirstTimeConfiguration();
         }
+        #endregion
     }
 }

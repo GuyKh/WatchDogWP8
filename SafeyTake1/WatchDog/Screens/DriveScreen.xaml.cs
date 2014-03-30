@@ -148,14 +148,15 @@ namespace WatchDOG.Screens
 
                 // Update the trail color
                 if (value < 33)
-                    safetyMeter.TrailBrush = new SolidColorBrush(Colors.Green);
+                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.LowAlertColor);
                 else if (value < 66)
-                    safetyMeter.TrailBrush = new SolidColorBrush(Colors.Yellow);
+                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.MedAlertColor);
                 else
-                    safetyMeter.TrailBrush = new SolidColorBrush(Colors.Red);
+                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.HighAlertColor);
             });
         }
 
+        
 
         #region Flicker Region
         // Volatile (one for all threads) boolean indicating if now flickering.
@@ -228,11 +229,7 @@ namespace WatchDOG.Screens
             showPopupEndDrive();
         }
         #endregion
-
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-        
+                
 
         #region Navigation
         /// <summary>

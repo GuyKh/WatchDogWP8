@@ -17,90 +17,91 @@ namespace WatchDOG.DataStructures
 
         #region Private Properties
 
-        private Color _lowAlertColor;
-        private Color _medAlertColor;
-        private Color _highAlertColor;
+        private static Color _lowAlertColor;
+        private static Color _medAlertColor;
+        private static Color _highAlertColor;
 
 
-        private string _medAlertSoundFilePath;
-        private string _highAlertSoundFilePath;
-        
-        private Driver _currentDriver;
+        private static string _medAlertSoundFilePath;
+        private static string _highAlertSoundFilePath;
 
-        private bool _isGpsEnabled;
+        private static Driver _currentDriver;
 
-        
-        private bool _isLaneDetectionEnabled;       // Maybe have the enabled within the type itself
+        private static bool _isGpsEnabled;
 
-        
-        private bool _isDistanceDetectionEnabled;
 
-       
-        private bool _isEyeDetectionEnabled;
+        private static bool _isLaneDetectionEnabled;       // Maybe have the enabled within the type itself
 
-        
-        private Units _unit;
+
+        private static bool _isDistanceDetectionEnabled;
+
+
+        private static bool _isEyeDetectionEnabled;
+
+
+        private static Units _unit;
 
         
         #endregion 
 
         #region Public Properties
-        public Color LowAlertColor
+
+        public static Color LowAlertColor
         {
             get { return _lowAlertColor; }
             set { _lowAlertColor = value; }
         }
 
-        public Color MedAlertColor
+        public static Color MedAlertColor
         {
             get { return _medAlertColor; }
             set { _medAlertColor = value; }
         }
 
-        public Color HighAlertColor
+        public static Color HighAlertColor
         {
             get { return _highAlertColor; }
             set { _highAlertColor = value; }
         }
 
-        public string MedAlertSoundFilePath
+        public static string MedAlertSoundFilePath
         {
             get { return _medAlertSoundFilePath; }
             set { _medAlertSoundFilePath = value; }
         }
-        public string HighAlertSoundFilePath
+        public static string HighAlertSoundFilePath
         {
             get { return _highAlertSoundFilePath; }
             set { _highAlertSoundFilePath = value; }
         }
 
-        internal Driver CurrentDriver
+        internal static Driver CurrentDriver
         {
             get { return _currentDriver; }
             set { _currentDriver = value; }
         }
 
-        public bool IsGpsEnabled
+        public static bool IsGpsEnabled
         {
             get { return _isGpsEnabled; }
             set { _isGpsEnabled = value; }
         }
-        public bool IsLaneDetectionEnabled
+        public static bool IsLaneDetectionEnabled
         {
             get { return _isLaneDetectionEnabled; }
             set { _isLaneDetectionEnabled = value; }
         }
-        public bool IsDistanceDetectionEnabled
+        public static bool IsDistanceDetectionEnabled
         {
             get { return _isDistanceDetectionEnabled; }
             set { _isDistanceDetectionEnabled = value; }
         }
-        public bool IsEyeDetectionEnabled
+        public static bool IsEyeDetectionEnabled
         {
             get { return _isEyeDetectionEnabled; }
             set { _isEyeDetectionEnabled = value; }
         }
-        internal Units Unit
+        internal static Units Unit
         {
             get { return _unit; }
             set { _unit = value; }
@@ -111,24 +112,29 @@ namespace WatchDOG.DataStructures
         public Settings()
         {
             _unit = Units.Metric;
+            
+            _lowAlertColor = Colors.Green;
+            _medAlertColor = Colors.Yellow;
+
         }
 
         #endregion
 
         #region Public Methods
-        public void LoadSettingsFromDisk()
+        public static void LoadSettingsFromDisk()
         {
 
         }
 
-        public void SaveSettingsToDisk()
+        public static void SaveSettingsToDisk()
         {
 
+            Loaded = true;
         }
 
-        public void RunTest()
-        { }
         #endregion
+
+        public static bool Loaded { get; set; }
     }
 
     enum Units{

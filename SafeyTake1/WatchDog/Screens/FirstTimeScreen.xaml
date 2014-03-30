@@ -22,7 +22,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="headline" Text="welcome" Foreground="#FF17567A" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" FontFamily="Segoe Print" FontSize="48" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Name="headline" Text="Register" Foreground="#FF17567A" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" FontFamily="Segoe Print" FontSize="48" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -41,22 +41,24 @@
                 <ColumnDefinition Width="33*"/>
                 <ColumnDefinition Width="43*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="register" HorizontalAlignment="Center" Margin="10,10,0,0" Foreground="#FF17567A" TextWrapping="Wrap" Text="Register please" VerticalAlignment="Center" Grid.ColumnSpan="2" FontSize="40" FontFamily="Segoe Print" FontWeight="Bold"/>
-            <TextBlock x:Name="txtUser" Margin="10,29,0,0" Grid.Row="1" TextWrapping="Wrap" Text="User name:" FontSize="28" FontFamily="Nyala"/>
-            <TextBlock x:Name="txtPassword" Margin="10,27,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Password:" FontSize="28" FontFamily="Nyala"/>
-            <TextBlock x:Name="txtVerify" Margin="10,28,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Verify password:" FontSize="28" FontFamily="Nyala"/>
-            <TextBox x:Name="txtboxUser" Margin="10,10,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"/>
-            <TextBox x:Name="txtboxPassword" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"/>
-            <TextBox x:Name="txtboxVerify" Margin="10,10,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"/>
+            <TextBlock x:Name="txtName" Margin="10,1,0,1" TextWrapping="Wrap" Text="Name:" FontSize="28" FontFamily="Nyala" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtboxName" Margin="10,2,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1" RenderTransformOrigin="0.487,-1.137"/>
+            <TextBlock x:Name="txtUser" Margin="10,1,0,1" Grid.Row="1" TextWrapping="Wrap" Text="User name:" FontSize="28" FontFamily="Nyala" VerticalAlignment="Center"/>
+            <TextBlock x:Name="txtPassword" Margin="10,1,0,1" Grid.Row="2" TextWrapping="Wrap" Text="Password:" FontSize="28" FontFamily="Nyala" VerticalAlignment="Center"/>
+            <TextBlock x:Name="txtVerify" Margin="10,1,0,1" Grid.Row="3" TextWrapping="Wrap" Text="Verify password:" FontSize="28" FontFamily="Nyala" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtboxUser" Margin="10,10,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1" RenderTransformOrigin="0.487,-1.137"/>
+            <TextBox x:Name="txtboxPassword" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1"/>
+            <TextBox x:Name="txtboxVerify" Margin="10,10,0,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1"/>
             <Grid HorizontalAlignment="Left" Height="91" VerticalAlignment="Top" Width="446" RenderTransformOrigin="2.124,3.898" Grid.ColumnSpan="2" Margin="10,93,0,-101" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="btnContinue" Background="#FF3398EC" Content="Continue" Grid.Column="1" Margin="0,10,-10,0" BorderBrush="{x:Null}" FontSize="28" FontFamily="Segoe Print" FontWeight="Bold" Click="btnContinue_Click"/>
-                <Button x:Name="btnExit" Background="#FF3398EC" Content="Exit" Margin="-20,10,0,0" 
-                         BorderBrush="{x:Null}" FontSize="28" FontFamily="Segoe Print" FontWeight="Bold" Click="btnExit_Click"/>
+                <Button x:Name="btnContinue" Background="#FF3398EC" Content="Continue" Grid.Column="1" Margin="0,10,0,0" BorderBrush="{x:Null}" FontSize="28" FontFamily="Segoe Print" FontWeight="Bold" Click="btnContinue_Click"/>
+                <Button x:Name="btnState" Background="#FF3398EC" Content="Login Mode" Margin="0,10,0,0" 
+                         BorderBrush="{x:Null}" FontSize="28" FontFamily="Segoe Print" FontWeight="Bold" Click="btnStatus_Click"/>
             </Grid>
+            
         </Grid>
     </Grid>
 

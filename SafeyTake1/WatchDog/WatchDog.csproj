@@ -107,6 +107,7 @@
     <Compile Include="DataStructures\EAlertType.cs" />
     <Compile Include="DataStructures\Settings.cs" />
     <Compile Include="DataStructures\Speed.cs" />
+    <Compile Include="Helpers\PhoneSettings.cs" />
     <Compile Include="Helpers\WatchDogHelper.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Logic\DriveLogic.cs" />
