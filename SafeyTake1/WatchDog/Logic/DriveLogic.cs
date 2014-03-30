@@ -49,7 +49,7 @@ namespace WatchDOG.Logic
         #region Constructor
         public DriveLogic(Driver driver)
         {
-            _currentDriver = new Driver("A", "B", "C");
+            _currentDriver = driver;
             frontAlerters = new List<FrontCameraAlerterAbstract>();
             frontAlerters.Add(new EyeDetectorAlerter());
 

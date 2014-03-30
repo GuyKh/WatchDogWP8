@@ -50,12 +50,14 @@ namespace WatchDOG.Screens
         private double _safetyLevel = 0;
         private Drive _currentDrive; 
         private DriveLogic _driveLogic;
+        private Driver _currentDriver;
         #endregion
 
         #region Constructor
         public DriveScreen()
         {
-            _driveLogic = new DriveLogic(new Driver("Name", "User", "Pass"));
+            _currentDriver = new Driver("Name", "User", "Pass");
+            _driveLogic = new DriveLogic(_currentDriver);
             InitializeComponent();
 
             }
@@ -79,6 +81,8 @@ namespace WatchDOG.Screens
             pumpARGBFrames = false;
             _currentDrive = _driveLogic._currentDrive;
             _currentDrive.EndTime = DateTime.Now;
+
+            PhoneApplicationService.Current.State["CurrentDrive"] = _currentDrive;
             NavigationService.Navigate(new Uri("/Screens/DriveSummaryScreen.xaml", UriKind.Relative));
         }
 
@@ -124,9 +128,9 @@ namespace WatchDOG.Screens
         {
             this.Dispatcher.BeginInvoke(playSound);
 
-            this.Dispatcher.BeginInvoke(() => startflickeringBackground(FLICKERING_WAIT));
-            Thread.Sleep(duration);
-            stopFlickeringBackground();
+            //this.Dispatcher.BeginInvoke(() => startflickeringBackground(FLICKERING_WAIT));
+            //Thread.Sleep(duration);
+            //stopFlickeringBackground();
 
 
         }

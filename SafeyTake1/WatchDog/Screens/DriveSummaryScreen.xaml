@@ -17,8 +17,8 @@
     <Grid x:Name="LayoutRoot" Background="#FF93CED1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="50*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -35,17 +35,17 @@
         <TextBlock x:Name="headline" Margin="32,8,31,7" TextWrapping="Wrap" Text="Drive Summary" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="48" Grid.Column="1" Grid.ColumnSpan="2"/>
 
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Driving Time" VerticalAlignment="Top" FontSize="35" FontWeight="Bold"/>
-        <TextBlock x:Name="txtDrivingTime" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="0:20" VerticalAlignment="Top" FontSize="35"/>
+        <TextBlock x:Name="txtDrivingTime" Grid.Column="2" Margin="0" Grid.Row="2" TextWrapping="Wrap" Text="0:20" VerticalAlignment="Center" FontSize="35" HorizontalAlignment="Right"/>
 
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Safety Score" VerticalAlignment="Top" FontSize="35" FontWeight="Bold"/>
-        <TextBlock x:Name="txtSafetyScore" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="3" TextWrapping="Wrap" Text="27" VerticalAlignment="Top" FontSize="35"/>
+        <TextBlock x:Name="txtSafetyScore" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,5,0" Grid.Row="3" TextWrapping="Wrap" Text="27" VerticalAlignment="Center" FontSize="35"/>
 
 
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="4" TextWrapping="Wrap" Text="Driver's Average Score" VerticalAlignment="Top" FontSize="35" FontWeight="Bold"/>
-        <TextBlock x:Name="txtDriverAVGScore" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="4" TextWrapping="Wrap" Text="0:20" VerticalAlignment="Top" FontSize="35"/>
+        <TextBlock x:Name="txtDriverAVGScore" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,9,0" Grid.Row="4" TextWrapping="Wrap" Text="0:20" VerticalAlignment="Center" FontSize="35"/>
 
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="Most Common Hazzard" VerticalAlignment="Top" FontSize="35" FontWeight="Bold"/>
-        <TextBlock x:Name="txtCommonHazzard" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="Distance Keeping" VerticalAlignment="Top" FontSize="35"/>
+        <TextBlock x:Name="txtCommonHazzard" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="5" TextWrapping="Wrap" Text="Distance Keeping" VerticalAlignment="Center" FontSize="35"/>
 
 
         <Button x:Name="btnClose" Content="Close" Margin="5" Background="#FF3398EC" Grid.Row="7" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Padding="5" Grid.Column="1" Grid.ColumnSpan="2" Click="btnExit_Click"/>

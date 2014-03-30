@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WatchDOG.DataStructures;
+using WatchDOG.Helpers;
 
 namespace WatchDOG.Screens
 {
@@ -20,8 +21,15 @@ namespace WatchDOG.Screens
 
         private void populateFields(Drive drive)
         {
-            txtDrivingTime.Text = drive.EndTime.Subtract(drive.StartTime).ToString("HH:MM");
+            txtDrivingTime.Text = drive.EndTime.Subtract(drive.StartTime).ToString("g");
             txtDriverAVGScore.Text = drive.Driver.AverageScore.ToString();
+            AlertEvent commonAlert = drive.Events.GroupBy(evnt => evnt.AlertType)
+                .OrderByDescending(type => type.Count()).SelectMany(g => g).FirstOrDefault();
+
+            txtCommonHazzard.Text = commonAlert != null ? 
+                WatchDogHelper.GetEnumDescription(commonAlert.AlertType) : 
+                "--";
+            txtSafetyScore.Text = drive.Events.Count() > 0 ? drive.Events.Average(evnt => evnt.AlertLevel).ToString() : "0";
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -34,5 +42,15 @@ namespace WatchDOG.Screens
             else 
                 Application.Current.Terminate();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            Drive lastDrive = (Drive)PhoneApplicationService.Current.State["CurrentDrive"];
+            populateFields(lastDrive);
+            
+        }
+
+
     }
 }
