@@ -208,7 +208,11 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Models\frontalEyes35x16.xml" />
     <Content Include="Models\haarcascade_eye.xml" />
+    <Content Include="Models\haarcascade_eye_tree_eyeglasses.xml" />
+    <Content Include="Models\ojoD.xml" />
+    <Content Include="Models\parojosG.xml" />
     <Content Include="Resources\Color-Meter-icon.png" />
     <Content Include="Resources\watch dog.jpg" />
     <Content Include="Sounds\alarm.wav" />

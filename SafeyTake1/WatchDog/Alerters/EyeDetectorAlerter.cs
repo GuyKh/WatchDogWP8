@@ -15,13 +15,13 @@ namespace WatchDOG.Alerters
         public const string MODEL_XML = "models\\haarcascade_eye.xml";
 
         //The initial ratio between the size of your image and the size of the sliding window (default: 2)
-        public const float BASE_SCALE = 4.0f;   
+        public const float BASE_SCALE = 8.0f;   
 
         //How much to increment your window for every iteration (default:1.25)
-        public const float SCALE_INC = 1.55f;
+        public const float SCALE_INC = 1.1f;
 
         // How much to shif the window at each step, in terms of the % of the window size
-        public const float INCREMENT = 0.08f;
+        public const float INCREMENT = 0.05f;
 
         // Minimum number of overlapping face rectangles to be considered a valid face (default: 1)
         public const int MIN_NEIGHBORS = 2;
