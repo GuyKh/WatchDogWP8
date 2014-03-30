@@ -48,7 +48,7 @@
         <TextBlock x:Name="txtCommonHazzard" Grid.Column="2" HorizontalAlignment="Right" Margin="10,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="Distance Keeping" VerticalAlignment="Top" FontSize="35"/>
 
 
-        <Button x:Name="btnExit" Content="Exit" Margin="5" Background="#FF3398EC" Grid.Row="7" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Padding="5" Grid.Column="1" Grid.ColumnSpan="2" Click="btnExit_Click"/>
+        <Button x:Name="btnClose" Content="Close" Margin="5" Background="#FF3398EC" Grid.Row="7" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Padding="5" Grid.Column="1" Grid.ColumnSpan="2" Click="btnExit_Click"/>
     </Grid>
 
 </phone:PhoneApplicationPage>

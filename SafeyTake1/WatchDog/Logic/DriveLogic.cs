@@ -76,9 +76,15 @@ namespace WatchDOG.Logic
         async private void getLocation()
         {
             Geolocator geolocator = new Geolocator();
-            Geoposition geoposition = await geolocator.GetGeopositionAsync();
-            myLocation = geoposition.Coordinate;
-
+            try
+            {
+                Geoposition geoposition = await geolocator.GetGeopositionAsync();
+                myLocation = geoposition.Coordinate;
+            }
+            catch (Exception ex)
+            {
+                myLocation = null;
+            }
         }
 
         /*

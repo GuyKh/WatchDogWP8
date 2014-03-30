@@ -26,7 +26,13 @@ namespace WatchDOG.Screens
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Terminate();
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.RemoveBackEntry();
+                NavigationService.GoBack();
+            }
+            else 
+                Application.Current.Terminate();
         }
     }
 }
