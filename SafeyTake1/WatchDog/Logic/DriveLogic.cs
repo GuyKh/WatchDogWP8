@@ -78,7 +78,10 @@ namespace WatchDOG.Logic
             Geolocator geolocator = new Geolocator();
             try
             {
-                Geoposition geoposition = await geolocator.GetGeopositionAsync();
+                Geoposition geoposition = await geolocator.GetGeopositionAsync(
+                    maximumAge: TimeSpan.FromMinutes(5),
+                    timeout: TimeSpan.FromSeconds(10)
+                );
                 myLocation = geoposition.Coordinate;
             }
             catch (Exception ex)
@@ -165,9 +168,14 @@ namespace WatchDOG.Logic
 
 
                 if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
-                    if (GPSEnabled) alertEvent.AlertLocation = myLocation;
+                {
+                    if (GPSEnabled)
+                    {
+                        getLocation();
+                        alertEvent.AlertLocation = myLocation;
+                    }
                     _currentDrive.Events.Add(alertEvent);
-
+                }
 
                 alertEvents.Add(alertEvent);
             }

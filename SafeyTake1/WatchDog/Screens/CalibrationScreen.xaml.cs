@@ -17,6 +17,7 @@ using WatchDOG.Helpers;
 using System.Device.Location;
 using Windows.Devices.Geolocation;
 using WatchDOG.Alerters;
+using Microsoft.Phone.Net.NetworkInformation;
 
 
 namespace WatchDOG.Screens
@@ -29,6 +30,7 @@ namespace WatchDOG.Screens
         private Detector detector;
         private DateTime frameStart;
         private Boolean GPSEnabled = true;
+        private Boolean internetConnected = true;
         #endregion
 
         #region Constructor
@@ -38,6 +40,8 @@ namespace WatchDOG.Screens
             detector = Detector.Create(EyeDetectorAlerter.MODEL_XML);
             GPSEnabled = isGPSEnabled();
             setGPSToggle(GPSEnabled);
+            internetConnected = isInternetConnected();
+            setInternetToggle(internetConnected);
         }
         #endregion
 
@@ -52,6 +56,12 @@ namespace WatchDOG.Screens
             Geolocator geolocator = new Geolocator();
             return !(geolocator.LocationStatus == PositionStatus.Disabled);
         }
+
+        private Boolean isInternetConnected()
+        {
+            return NetworkInterface.GetIsNetworkAvailable();
+        }
+
 
         #region Navigation Methods
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -220,10 +230,6 @@ namespace WatchDOG.Screens
         {
             checkInternet.IsChecked = ticked;
         }
-
-
-
-       
 
     }
 }
