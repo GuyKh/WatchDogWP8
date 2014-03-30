@@ -36,7 +36,7 @@ namespace WatchDOG.Screens
         /// <summary>
         /// Which sound file to play on alarm
         /// </summary>
-        private const string ALARM_SOUND = "Sounds\alarm.mp3";
+        private const string ALARM_SOUND_FILENAME = "alarm.wav";
 
         /// <summary>
         /// How long will an alarm take (+- FLICKERING_WAIT duration)
@@ -155,7 +155,8 @@ namespace WatchDOG.Screens
 
         #region Flicker Region
         // Volatile (one for all threads) boolean indicating if now flickering.
-        private volatile bool flickering;
+        [ThreadStatic]
+        private static bool flickering;
         
 
         /// <summary>
@@ -197,7 +198,7 @@ namespace WatchDOG.Screens
         /// </summary>
         private void playSound()
         {
-            Stream stream = TitleContainer.OpenStream(ALARM_SOUND);
+            Stream stream = TitleContainer.OpenStream(@"Sounds/"+ALARM_SOUND_FILENAME);
             SoundEffect effect = SoundEffect.FromStream(stream);
             FrameworkDispatcher.Update();
             effect.Play();

@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using WatchDOG.Helpers;
 using System.Device.Location;
 using Windows.Devices.Geolocation;
+using WatchDOG.Alerters;
+
 
 namespace WatchDOG.Screens
 {
@@ -33,7 +35,7 @@ namespace WatchDOG.Screens
         public CalibrationScreen()
         {
             InitializeComponent();
-            detector = Detector.Create("models\\haarcascade_eye.xml");
+            detector = Detector.Create(EyeDetectorAlerter.MODEL_XML);
             GPSEnabled = isGPSEnabled();
             setGPSToggle(GPSEnabled);
         }
@@ -48,7 +50,7 @@ namespace WatchDOG.Screens
         private Boolean isGPSEnabled()
         {
             Geolocator geolocator = new Geolocator();
-
+            
             if (geolocator.LocationStatus == PositionStatus.Disabled)
             {
                 return false;
@@ -141,7 +143,10 @@ namespace WatchDOG.Screens
             WriteableBitmap detectorBitmap = (new WriteableBitmap(bitmap));
             var thread = new System.Threading.Thread(delegate()
             {
-                List<NativeFaceDetector.Rectangle> rectangles = detector.getFaces(detectorBitmap, 4.0f, 1.55f, 0.08f, 2);
+                List<NativeFaceDetector.Rectangle> rectangles = detector.getFaces(bitmap,
+                    EyeDetectorAlerter.BASE_SCALE, EyeDetectorAlerter.SCALE_INC,
+                    EyeDetectorAlerter.INCREMENT, EyeDetectorAlerter.MIN_NEIGHBORS);
+
 
                 // Print Text
                 this.Dispatcher.BeginInvoke(delegate()
