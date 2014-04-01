@@ -146,28 +146,34 @@ namespace WatchDOG.Screens
             });
         }
         
+        private EyeDetectorAlerter _eyeDetectorAlerter = new EyeDetectorAlerter();
         private void detectFaces(WriteableBitmap bitmap)
         {
             // The user sees a transposed image in the viewfinder, transpose the image for face detection as well.
             WriteableBitmap detectorBitmap = (new WriteableBitmap(bitmap));
             var thread = new System.Threading.Thread(delegate()
             {
-                List<NativeFaceDetector.Rectangle> rectangles = detector.getFaces(bitmap,
-                    EyeDetectorAlerter.BASE_SCALE, EyeDetectorAlerter.SCALE_INC,
-                    EyeDetectorAlerter.INCREMENT, EyeDetectorAlerter.MIN_NEIGHBORS);
+                List<NativeFaceDetector.Rectangle> rectangles = _eyeDetectorAlerter.Detect(bitmap);
 
-
-                // Print Text
+#if (DEBUG)
+{  
+                  // Print Text
                 this.Dispatcher.BeginInvoke(delegate()
                 {
-                    double milliseconds = (DateTime.Now - frameStart).TotalMilliseconds;
-                    // Cannot capture an image until the previous capture has completed.
+                    // Print Text
+                    this.Dispatcher.BeginInvoke(delegate()
+                    {
+                        double milliseconds = (DateTime.Now - frameStart).TotalMilliseconds;
+                        // Cannot capture an image until the previous capture has completed.
 
-                    /* Dani comment - txtDebug made error prevented running the app.
-                    txtDebug.Text = (rectangles != null) ? "No. of Eyes: " + rectangles.Count + ". It took me: " + milliseconds + " ms." : "Null Eyes";
-                    */
-                    frameStart = DateTime.Now;
+                        debugTxt.Text = "It took me: " + milliseconds + " ms.";
+
+                        frameStart = DateTime.Now;
+                    });
                 });
+}
+#endif
+
 
                 this.Dispatcher.BeginInvoke(delegate()
                 {

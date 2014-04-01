@@ -29,7 +29,8 @@ namespace WatchDOG.Screens
         /// <param name="drive">Last Drive to be used</param>
         private void populateFields(Drive drive)
         {
-            txtDrivingTime.Text = drive.EndTime.Subtract(drive.StartTime).ToString("hh:mm");
+            var driveDuration = drive.EndTime.Subtract(drive.StartTime);
+            txtDrivingTime.Text = string.Format("{0} : {1}", driveDuration.Hours, driveDuration.Minutes);
             txtDriverAVGScore.Text = String.Format("{0:0.##}", drive.Driver.AverageScore);
             AlertEvent commonAlert = drive.Events.GroupBy(evnt => evnt.AlertType)
                 .OrderByDescending(type => type.Count()).SelectMany(g => g).FirstOrDefault();
@@ -37,7 +38,7 @@ namespace WatchDOG.Screens
             txtCommonHazzard.Text = commonAlert != null ? 
                 WatchDogHelper.GetEnumDescription(commonAlert.AlertType) : 
                 "--";
-            txtSafetyScore.Text = drive.Events.Count() > 0 ? 
+            txtSafetyScore.Text = drive.Events.Any() ? 
                 String.Format("{0:0.##}",drive.Events.Average(evnt => evnt.AlertLevel)) 
                 : "0";
         }

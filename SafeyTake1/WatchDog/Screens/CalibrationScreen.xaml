@@ -62,7 +62,7 @@
         </Button>
 
         <Button x:Name="btnClose" Content="Close" Margin="5,5,0,0" Background="#FF3398EC" Grid.Row="4" BorderBrush="{x:Null}" FontFamily="Segoe Print" FontSize="28" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="2" Click="btnBack_Click" />
-        <TextBlock x:Name="debugTxt" Grid.Column="1" HorizontalAlignment="Left" Margin="52,66,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="34" Width="345" Grid.ColumnSpan="3"/>
+        <TextBlock x:Name="debugTxt" Grid.Column="1" HorizontalAlignment="Left" Margin="10,466,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="34" Width="345" Grid.ColumnSpan="3" Grid.Row="2"/>
 
     </Grid>
 

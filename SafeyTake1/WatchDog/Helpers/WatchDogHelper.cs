@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Coding4Fun.Toolkit.Controls;
 using Microsoft.Phone.Shell;
 using System.Reflection;
@@ -75,6 +77,42 @@ namespace WatchDOG.Helpers
                 return attributes[0].Description;
             else
                 return value.ToString();
+        }
+
+        public static WriteableBitmap CropImage(WriteableBitmap source,
+                                                         int xOffset, int yOffset,
+                                                         int width, int height)
+        {
+            // Get the width of the source image
+            var sourceWidth = source.PixelWidth;
+
+            // Get the resultant image as WriteableBitmap with specified size
+            WriteableBitmap result = null;
+            
+            EventWaitHandle Wait = new AutoResetEvent(false);
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                result = new WriteableBitmap(width, height);
+                Wait.Set();
+            });
+            // wait while item is added on UI
+            Wait.WaitOne();
+            
+
+            // Create the array of bytes
+            for (var x = 0; x <= height - 1; x++)
+            {
+                var sourceIndex = xOffset + (yOffset + x)*sourceWidth;
+                var destinationIndex = x*width;
+
+                Array.Copy(source.Pixels, sourceIndex, result.Pixels, destinationIndex, width);
+            }
+            return result;
+
+
+
+            
+            
         }
     }
 }
