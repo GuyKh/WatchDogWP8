@@ -63,10 +63,10 @@ namespace WatchDOG.Alerters
             if (rectangles.Any())
             {
                 if (rectangles.Count >= 2)
-                    return 100;
+                    return 0;
                 return 50;
             }
-            return 1;
+            return 100;
 
         }
 
