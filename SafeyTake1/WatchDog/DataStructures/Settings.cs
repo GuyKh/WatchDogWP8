@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,127 +18,213 @@ namespace WatchDOG.DataStructures
 
         #region Private Properties
 
-        private static Color _lowAlertColor;
-        private static Color _medAlertColor;
-        private static Color _highAlertColor;
+        // Our settings
+        static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
 
+        // The key names of our settings
+        const string LowAlertColorKeyName = "LowAlertColorSetting";
+        const string MediumAlertColorKeyName = "MediumAlertColorSetting";
+        const string HighAlertColorKeyName = "HighAlertColorSetting";
+        const string CurrentDriveKeyName = "CurrentDriverSetting";
+        const string IsGpsEnabledKeyName = "IsGpsEnabledSetting";
+        const string UnitsKeyName = "UnitsSetting";
 
-        private static string _medAlertSoundFilePath;
-        private static string _highAlertSoundFilePath;
-
-        private static Driver _currentDriver;
-
-        private static bool _isGpsEnabled;
-
-
-        private static bool _isLaneDetectionEnabled;       // Maybe have the enabled within the type itself
-
-
-        private static bool _isDistanceDetectionEnabled;
-
-
-        private static bool _isEyeDetectionEnabled;
-
-
-        private static Units _unit;
-
+        // The default value of our settings    
+        static Color LowAlertColorDefault = Colors.Green;
+        static Color MediumAlertColorDefault = Colors.Yellow;
+        static Color HighAlertColorDefault = Colors.Red;
+        const Driver CurrentDriveDefault = null;
+        const bool IsGpsEnabledDefault = true;
+        const Units UnitsDefault = Units.Metric;
         
         #endregion 
 
         #region Public Properties
-
-        public static Color LowAlertColor
+        /// <summary>
+        /// Property to get and set a Low Alert Color Setting Key.
+        /// </summary>
+        static public Color LowAlertColorSetting
         {
-            get { return _lowAlertColor; }
-            set { _lowAlertColor = value; }
+            get
+            {
+                return GetValueOrDefault<Color>(LowAlertColorKeyName, LowAlertColorDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(LowAlertColorKeyName, value))
+                {
+                    Save();
+                }
+            }
         }
 
-        public static Color MedAlertColor
+        /// <summary>
+        /// Property to get and set a Medium Alert Color Setting Key.
+        /// </summary>
+        static public Color MediumAlertColorSetting
         {
-            get { return _medAlertColor; }
-            set { _medAlertColor = value; }
+            get
+            {
+                return GetValueOrDefault<Color>(MediumAlertColorKeyName, MediumAlertColorDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(MediumAlertColorKeyName, value))
+                {
+                    Save();
+                }
+            }
         }
 
-        public static Color HighAlertColor
+        /// <summary>
+        /// Property to get and set a High Alert Color Setting Key.
+        /// </summary>
+        static public Color HighAlertColorSetting
         {
-            get { return _highAlertColor; }
-            set { _highAlertColor = value; }
+            get
+            {
+                return GetValueOrDefault<Color>(HighAlertColorKeyName, HighAlertColorDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(HighAlertColorKeyName, value))
+                {
+                    Save();
+                }
+            }
         }
 
-        public static string MedAlertSoundFilePath
+        /// <summary>
+        /// Property to get and set a CurrentDriver Setting Key.
+        /// </summary>
+        static public Driver CurrentDriverSetting
         {
-            get { return _medAlertSoundFilePath; }
-            set { _medAlertSoundFilePath = value; }
-        }
-        public static string HighAlertSoundFilePath
-        {
-            get { return _highAlertSoundFilePath; }
-            set { _highAlertSoundFilePath = value; }
+            get
+            {
+                return GetValueOrDefault<Driver>(CurrentDriveKeyName, CurrentDriveDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(CurrentDriveKeyName, value))
+                {
+                    Save();
+                }
+            }
         }
 
-        internal static Driver CurrentDriver
+
+        /// <summary>
+        /// Property to get and set a Is GPS Enabled Setting Key.
+        /// </summary>
+        static public bool IsGpsEnabledSettings
         {
-            get { return _currentDriver; }
-            set { _currentDriver = value; }
+            get
+            {
+                return GetValueOrDefault<bool>(IsGpsEnabledKeyName, IsGpsEnabledDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(IsGpsEnabledKeyName, value))
+                {
+                    Save();
+                }
+            }
         }
 
-        public static bool IsGpsEnabled
+        /// <summary>
+        /// Property to get and set a Units Setting Key.
+        /// </summary>
+        static public Units UnitsSetting
         {
-            get { return _isGpsEnabled; }
-            set { _isGpsEnabled = value; }
+            get
+            {
+                return GetValueOrDefault<Units>(UnitsKeyName, UnitsDefault);
+            }
+            set
+            {
+                if (AddOrUpdateValue(UnitsKeyName, value))
+                {
+                    Save();
+                }
+            }
         }
-        public static bool IsLaneDetectionEnabled
-        {
-            get { return _isLaneDetectionEnabled; }
-            set { _isLaneDetectionEnabled = value; }
-        }
-        public static bool IsDistanceDetectionEnabled
-        {
-            get { return _isDistanceDetectionEnabled; }
-            set { _isDistanceDetectionEnabled = value; }
-        }
-        public static bool IsEyeDetectionEnabled
-        {
-            get { return _isEyeDetectionEnabled; }
-            set { _isEyeDetectionEnabled = value; }
-        }
-        internal static Units Unit
-        {
-            get { return _unit; }
-            set { _unit = value; }
-        }
-        #endregion
 
-        #region Constructor
-        public Settings()
-        {
-            _unit = Units.Metric;
-            
-            _lowAlertColor = Colors.Green;
-            _medAlertColor = Colors.Yellow;
-
-        }
 
         #endregion
 
         #region Public Methods
-        public static void LoadSettingsFromDisk()
-        {
-
-        }
-
-        public static void SaveSettingsToDisk()
-        {
-
-            Loaded = true;
-        }
 
         #endregion
 
-        public static bool Loaded { get; set; }
+        #region General Methods
+        /// <summary>
+        /// Update a setting value for our application. If the setting does not
+        /// exist, then add the setting.
+        /// </summary>
+        /// <param name="Key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        static public bool AddOrUpdateValue(string Key, Object value)
+        {
+            bool valueChanged = false;
+
+            // If the key exists
+            if (settings.Contains(Key))
+            {
+                // If the value has changed
+                if (settings[Key] != value)
+                {
+                    // Store the new value
+                    settings[Key] = value;
+                    valueChanged = true;
+                }
+            }
+            // Otherwise create the key.
+            else
+            {
+                settings.Add(Key, value);
+                valueChanged = true;
+            }
+           return valueChanged;
+        }
+
+        /// <summary>
+        /// Get the current value of the setting, or if it is not found, set the 
+        /// setting to the default setting.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        static public T GetValueOrDefault<T>(string Key, T defaultValue)
+        {
+            T value;
+
+            // If the key exists, retrieve the value.
+            if (settings.Contains(Key))
+            {
+                value = (T)settings[Key];
+            }
+            // Otherwise, use the default value.
+            else
+            {
+                value = defaultValue;
+            }
+            return value;
+        }
+
+        /// <summary>
+        /// Save the settings.
+        /// </summary>
+        static public void Save()
+        {
+            settings.Save();
+        }
+
+        #endregion
     }
 
-    enum Units{
+    public enum Units{
         Metric,     // Meters
         Imperial    // Miles
     }

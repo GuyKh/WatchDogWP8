@@ -148,11 +148,11 @@ namespace WatchDOG.Screens
 
                 // Update the trail color
                 if (value < 33)
-                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.LowAlertColor);
+                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.LowAlertColorSetting);
                 else if (value < 66)
-                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.MedAlertColor);
+                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.MediumAlertColorSetting);
                 else
-                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.HighAlertColor);
+                    safetyMeter.TrailBrush = new SolidColorBrush(Settings.HighAlertColorSetting);
             });
         }
 

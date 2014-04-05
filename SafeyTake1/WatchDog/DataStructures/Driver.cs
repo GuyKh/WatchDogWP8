@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WatchDOG.DataStructures
 {
-    class Driver
+    public class Driver
     {
 
         #region Private Properties

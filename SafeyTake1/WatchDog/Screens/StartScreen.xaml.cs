@@ -20,8 +20,7 @@ namespace WatchDOG.Screens
         #region Constructor
         public StartScreen()
         {
-            Settings.LoadSettingsFromDisk();
-            isFirstTime = Settings.Loaded;
+            isFirstTime = Settings.CurrentDriverSetting == null;
             InitializeComponent();
         }
         #endregion
@@ -42,6 +41,15 @@ namespace WatchDOG.Screens
         private void startDriving()
         {
             NavigationService.Navigate(new Uri("/Screens/DriveScreen.xaml", UriKind.Relative));
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+            }
         }
         #endregion
 

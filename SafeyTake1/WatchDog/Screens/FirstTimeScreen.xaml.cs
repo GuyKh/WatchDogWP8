@@ -36,6 +36,8 @@ namespace WatchDOG.Screens
                 headline.Text = "Login";
                 txtVerify.Visibility = Visibility.Collapsed;
                 txtboxVerify.Visibility = Visibility.Collapsed;
+                txtName.Visibility = Visibility.Collapsed;
+                txtboxName.Visibility = Visibility.Collapsed;
                 btnState.Content = "Sign Up Mode";
                 register = false;
             }
@@ -79,13 +81,10 @@ namespace WatchDOG.Screens
                     return;
                 }
 
-                Settings.CurrentDriver = CreateNewDriver(txtboxName.Text, txtboxUser.Text, txtboxPassword.Text);
-                Settings.Loaded = true;
+                Settings.CurrentDriverSetting = CreateNewDriver(txtboxName.Text, txtboxUser.Text, txtboxPassword.Text);
             }
-
-            Settings.SaveSettingsToDisk();
-
             StartScreen.isFirstTime = false;
+
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
             else NavigationService.Navigate(new Uri("/Screens/SettingsScreen.xaml", UriKind.Relative));

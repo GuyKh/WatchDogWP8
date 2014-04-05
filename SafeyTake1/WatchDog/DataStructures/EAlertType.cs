@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WatchDOG.DataStructures
 {
-    enum EAlertType
+    public enum EAlertType
     {
         // Using binary values (001, 010, 100) for combinations.
         [Description("Eyes Closed")]

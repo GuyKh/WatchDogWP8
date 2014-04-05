@@ -7,7 +7,7 @@ using Windows.Devices.Geolocation;
 
 namespace WatchDOG.DataStructures
 {
-    class AlertEvent
+    public class AlertEvent
     {
         
         private DateTime _alertTime;
