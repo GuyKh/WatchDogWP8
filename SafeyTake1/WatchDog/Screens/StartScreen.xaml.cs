@@ -20,7 +20,6 @@ namespace WatchDOG.Screens
         #region Constructor
         public StartScreen()
         {
-            isFirstTime = Settings.CurrentDriverSetting == null;
             InitializeComponent();
         }
         #endregion
@@ -49,6 +48,10 @@ namespace WatchDOG.Screens
 
             if (e.NavigationMode == NavigationMode.Back)
             {
+                if (Settings.CurrentDriverSetting == null){
+                    MessageBox.Show("Failed creating a driver, Login / Sign Up again");
+                    showFirstTimeConfiguration();
+                }
             }
         }
         #endregion
@@ -78,8 +81,7 @@ namespace WatchDOG.Screens
         #region Overriding Functions 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-
-            if (isFirstTime)
+            if (Settings.CurrentDriverSetting == null)
                 showFirstTimeConfiguration();
         }
         #endregion

@@ -272,6 +272,8 @@ namespace WatchDOG.Screens
                 
                 cam.Initialized += CamOnInitialized;
 
+                viewfinderCanvas.Height = 400;
+                viewfinderCanvas.Width = 400 * 1.3333;
                 viewfinderCanvas.Visibility = Visibility.Collapsed;
                 //Set the VideoBrush source to the camera
                 viewfinderBrush.SetSource(cam);
@@ -341,12 +343,12 @@ namespace WatchDOG.Screens
                     ARGBPx.CopyTo(wb.Pixels, 0);
 
                     double score = _driveLogic.AnalyzeFrontPicture(wb);
-
+#if DEBUG
                     this.Dispatcher.BeginInvoke(delegate()
                         {
                             debugTxt.Text = string.Format("Processing Time: {0} milliseconds", DateTime.Now.Subtract(startTime).TotalMilliseconds);
                         });
-
+#endif
                     UpdateScreen(score, _driveLogic.AlertMessage);
                     pauseFramesEvent.Set();
                     

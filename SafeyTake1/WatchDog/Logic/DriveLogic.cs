@@ -67,8 +67,12 @@ namespace WatchDOG.Logic
 
         private Boolean isGPSEnabled()
         {
-            Geolocator geolocator = new Geolocator();
-            return !(geolocator.LocationStatus == PositionStatus.Disabled);
+            if (Settings.IsGpsEnabledSettings == true)
+            {
+                Geolocator geolocator = new Geolocator();
+                return !(geolocator.LocationStatus == PositionStatus.Disabled);
+            }
+            else return false;
         }
 
         
@@ -165,15 +169,16 @@ namespace WatchDOG.Logic
                 {
                     if (isGPSEnabled())
                     {
+                        //Get GPS Location
                         var task = Task.Run(async () => { myLocation = await getLocationTask(); });
-                        task.Wait(); 
-                        
+                        task.Wait() ;
                         
                         alertEvent.AlertLocation = myLocation.Coordinate;
                         myLocation = null;
+                        
                     }
-                    _currentDrive.Events.Add(alertEvent);
 
+                    _currentDrive.Events.Add(alertEvent);
                     alertEvents.Add(alertEvent);
                 }
 
