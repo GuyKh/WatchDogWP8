@@ -20,18 +20,21 @@ using WatchDOG.Screens;
 using System.Device.Location;
 using Windows.Devices.Geolocation;
 using System.IO.IsolatedStorage;
+using WatchDog;
+using Microsoft.WindowsAzure.MobileServices;
 
 
 namespace WatchDOG.Logic
 {
     class DriveLogic
     {
+
         
         #region Constants
         /// <summary>
         /// Threshold from whatlevel up to alarm.
         /// </summary>
-        public const double ALERT_THRESHOLD = 50;
+        public const double ALERT_THRESHOLD = 90;
 
         public const int DURATION_INTERVAL = 1000;
 
@@ -40,6 +43,7 @@ namespace WatchDOG.Logic
 
         #region Private Properties
 
+        private IMobileServiceTable<AlertEvent> alertEventsTable = App.MobileService.GetTable<AlertEvent>();
         private List<FrontCameraAlerterAbstract> frontAlerters;
         internal Drive _currentDrive;
         private Driver _currentDriver;
@@ -164,6 +168,7 @@ namespace WatchDOG.Logic
 
                 };
 
+                //uploadEventToDatabase(alertEvent);
 
                 if (alertEvent.AlertLevel >= ALERT_THRESHOLD)
                 {
@@ -189,6 +194,11 @@ namespace WatchDOG.Logic
             return calculateSafetyScore(alertEvents.Where(_event => _event.AlertLevel >= 0));
 
             
+        }
+
+        private async void uploadEventToDatabase(AlertEvent alertEvent)
+        {
+            await alertEventsTable.InsertAsync(alertEvent);
         }
 
 

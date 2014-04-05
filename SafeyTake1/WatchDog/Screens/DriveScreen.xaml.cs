@@ -20,6 +20,8 @@ using System.Windows.Media.Imaging;
 using Coding4Fun.Toolkit.Controls;
 using WatchDOG.DataStructures;
 using WatchDOG.Logic;
+using Microsoft.WindowsAzure.MobileServices;
+using WatchDog;
 
 namespace WatchDOG.Screens
 {

@@ -9,11 +9,16 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WatchDOG.DataStructures;
 using WatchDOG.Helpers;
+using Microsoft.WindowsAzure.MobileServices;
+using WatchDog;
 
 namespace WatchDOG.Screens
 {
     public partial class DriveSummaryScreen : PhoneApplicationPage
     {
+        private IMobileServiceTable<Drive> drivesTable = App.MobileService.GetTable<Drive>();
+
+
         #region Constructor
         public DriveSummaryScreen()
         {
@@ -57,7 +62,13 @@ namespace WatchDOG.Screens
             base.OnNavigatedTo(e);
             Drive lastDrive = (Drive)PhoneApplicationService.Current.State["CurrentDrive"];
             populateFields(lastDrive);
+            //updateDriveToDatabase(lastDrive);
 
+        }
+
+        private async void updateDriveToDatabase(Drive lastDrive)
+        {
+            await drivesTable.InsertAsync(lastDrive);
         }
 
         /// <summary>

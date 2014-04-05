@@ -50,7 +50,7 @@
                 </VideoBrush>
             </Canvas.Background>
         </Canvas>
-        <TextBlock x:Name="debugTxt" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="34" Width="345"/>
+        <TextBlock x:Name="debugTxt" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="34" Width="345"/>
     </Grid>
 
     <!--LayoutRoot is the root grid where all page content is placed-->

@@ -61,13 +61,28 @@ namespace WatchDOG.Alerters
             List<NativeFaceDetector.Rectangle> rectangles = Detect(bitmap);
 
             if (rectangles.Any())
-            {
-                if (rectangles.Count >= 2)
-                    return 0;
-                return 50;
-            }
-            return 100;
+                return calcScore(0);
+            else return calcScore(100);
 
+        }
+
+        const int ARRAY_SIZE = 10;
+        static int[] latestScores = new int[ARRAY_SIZE];
+        static int lastScoreIndex;
+
+        private double calcScore(int p)
+        {
+            double returnScore = 0;
+
+            lastScoreIndex = (lastScoreIndex + 1) % ARRAY_SIZE;
+            latestScores[lastScoreIndex] = p;
+
+            for (int i = 0; i < ARRAY_SIZE; i++)
+            {
+                returnScore += latestScores[(lastScoreIndex + ARRAY_SIZE - i) % ARRAY_SIZE] * (1 / Math.Pow(2, i + 1));
+            }
+
+            return returnScore;
         }
 
         public override EAlertType GetAlerterType()
