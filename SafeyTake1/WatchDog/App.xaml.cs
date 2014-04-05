@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WatchDog.Resources;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace WatchDog
 {
@@ -17,6 +18,12 @@ namespace WatchDog
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
+
+
+        public static MobileServiceClient MobileService = new MobileServiceClient(
+            "https://watchdog.azure-mobile.net/",
+            "afeSlLBQjFAuIcRtTNzsfjiyNaZwmw46"
+        );
 
         /// <summary>
         /// Constructor for the Application object.

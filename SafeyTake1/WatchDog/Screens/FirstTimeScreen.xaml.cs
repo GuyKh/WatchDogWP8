@@ -8,6 +8,9 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WatchDOG.DataStructures;
+using Microsoft.WindowsAzure.MobileServices;
+using WatchDog;
+
 
 namespace WatchDOG.Screens
 {
@@ -15,6 +18,8 @@ namespace WatchDOG.Screens
     {
         private Settings _newSettings;
         private bool register = true;
+        private MobileServiceCollection<Driver, Driver> Drivers;
+        private IMobileServiceTable<Driver> DriversTable = App.MobileService.GetTable<Driver>();
 
         public FirstTime()
         {
@@ -80,8 +85,11 @@ namespace WatchDOG.Screens
                     MessageBox.Show("Password cannot be empty", "Error", MessageBoxButton.OK);
                     return;
                 }
-
-                Settings.CurrentDriverSetting = CreateNewDriver(txtboxName.Text, txtboxUser.Text, txtboxPassword.Text);
+                
+                CreateNewDriver(txtboxName.Text, txtboxUser.Text, txtboxPassword.Text);
+                
+                if (_driver != null)
+                    Settings.CurrentDriverSetting = _driver; 
             }
             StartScreen.isFirstTime = false;
 
@@ -95,18 +103,44 @@ namespace WatchDOG.Screens
             return null;
         }
 
+        private async void InsertDriver(Driver todoItem)
+        {
+            //// This code inserts a new Drivers into the database. When the operation completes
+            //// and Mobile Services has assigned an Id, the item is added to the CollectionView
+            await DriversTable.InsertAsync(todoItem);
+
+            Drivers.Add(todoItem);
+        }
+
+        private Driver _driver;
+
         /// <summary>
-        /// Create a new user from the username and password.
+        /// Create a new user from the username and password.   
         /// </summary>
         /// <param name="name">Driver's Name</param>
         /// <param name="username">Driver's Username</param>
         /// <param name="password">Driver's Password</param>
-        private Driver CreateNewDriver(string name, string username, string password)
+        private async void CreateNewDriver(string name, string username, string password)
         {
             // ToDo: Insert to the DB.
 
-            Driver _driver = new Driver(name, username, password);
-            return _driver;
+            _driver = null;
+            var _existing = await DriversTable.Where(driver => driver.Username == username).ToListAsync();
+
+            if (!_existing.Any())
+            {
+                _driver = new Driver(name, username, password);
+
+                InsertDriver(_driver);
+                
+                return;
+            }
+            else
+            {
+                MessageBox.Show("User name already exists");
+
+            }
+            return;
         }
 
         /// <summary>
