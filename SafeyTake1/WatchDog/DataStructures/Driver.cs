@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+
 
 namespace WatchDOG.DataStructures
 {
@@ -19,22 +21,28 @@ namespace WatchDOG.DataStructures
         #endregion 
         
         #region Public Properties
+        [JsonProperty(PropertyName = "Name")]
         public string Name
         {
             get { return _name; }
             set { _name = value; }
         }
 
+        [JsonProperty(PropertyName = "Username")]
         public string Username
         {
             get { return _username; }
             set { _username = value; }
         }
+
+        [JsonProperty(PropertyName = "Password")]
         public string Password
         {
             get { return _password; }
             set { _password = value; }
         }
+
+        [JsonProperty(PropertyName = "AverageScore")]
         public double AverageScore
         {
             get { return _avgScore; }
