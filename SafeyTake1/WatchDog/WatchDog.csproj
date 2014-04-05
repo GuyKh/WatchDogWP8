@@ -108,6 +108,7 @@
     <Compile Include="DataStructures\Settings.cs" />
     <Compile Include="DataStructures\Speed.cs" />
     <Compile Include="Helpers\PhoneSettings.cs" />
+    <Compile Include="Helpers\SQL.cs" />
     <Compile Include="Helpers\WatchDogHelper.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Logic\DriveLogic.cs" />
@@ -219,6 +220,7 @@
     <EmbeddedResource Include="Resources\WatchDog.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="Resources\Dog.png" />
     <Content Include="Sounds\alarm.wav" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />

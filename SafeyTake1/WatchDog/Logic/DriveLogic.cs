@@ -83,7 +83,7 @@ namespace WatchDOG.Logic
         {
             Geolocator geolocator = new Geolocator();
             return geolocator.GetGeopositionAsync(maximumAge: TimeSpan.FromMinutes(5),
-                    timeout: TimeSpan.FromSeconds(10)
+                    timeout: TimeSpan.FromSeconds(2)
                 ).AsTask<Geoposition>();
 
         }

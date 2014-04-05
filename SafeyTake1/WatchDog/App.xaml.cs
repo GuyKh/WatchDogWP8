@@ -21,8 +21,8 @@ namespace WatchDog
 
 
         public static MobileServiceClient MobileService = new MobileServiceClient(
-            "https://watchdog.azure-mobile.net/",
-            "afeSlLBQjFAuIcRtTNzsfjiyNaZwmw46"
+          "https://watchdog.azure-mobile.net/",
+          "QCTrBKhhUHAzLwyxztflBBAyiPOhnJ19"
         );
 
         /// <summary>

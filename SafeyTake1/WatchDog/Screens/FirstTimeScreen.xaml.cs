@@ -10,21 +10,37 @@ using Microsoft.Phone.Shell;
 using WatchDOG.DataStructures;
 using Microsoft.WindowsAzure.MobileServices;
 using WatchDog;
+using System.Threading.Tasks;
 
 
 namespace WatchDOG.Screens
 {
+    public class Item
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+    }
+
     public partial class FirstTime : PhoneApplicationPage
     {
         private Settings _newSettings;
         private bool register = true;
-        private MobileServiceCollection<Driver, Driver> Drivers;
-        private IMobileServiceTable<Driver> DriversTable = App.MobileService.GetTable<Driver>();
+        private MobileServiceCollection<Driver, Driver> drivers;
+        private IMobileServiceTable<Driver> driversTable = App.MobileService.GetTable<Driver>();
 
         public FirstTime()
         {
             InitializeComponent();
+            getUsersFromServer();
+
         }
+
+        private async void getUsersFromServer()
+        {
+            drivers = await driversTable.ToCollectionAsync();
+        }
+
+
 
         private void btnStatus_Click(object sender, RoutedEventArgs e)
         {
@@ -51,6 +67,9 @@ namespace WatchDOG.Screens
                 headline.Text = "Register";
                 txtVerify.Visibility = Visibility.Visible;
                 txtboxVerify.Visibility = Visibility.Visible;
+
+                txtName.Visibility = Visibility.Visible;
+                txtboxName.Visibility = Visibility.Visible;
                 btnState.Content = "Login Mode";
                 register = true;
             }
@@ -71,7 +90,7 @@ namespace WatchDOG.Screens
                 }
                 else
                 {
-                    Driver driver = LoadDriver(txtboxUser.Text);
+                    Settings.CurrentDriverSetting = LoadDriver(txtboxUser.Text);
                 }
             else
             {
@@ -87,9 +106,14 @@ namespace WatchDOG.Screens
                 }
                 
                 CreateNewDriver(txtboxName.Text, txtboxUser.Text, txtboxPassword.Text);
-                
+
                 if (_driver != null)
-                    Settings.CurrentDriverSetting = _driver; 
+                    Settings.CurrentDriverSetting = _driver;
+                else
+                {
+                    MessageBox.Show("Error inserting the User to the Database. Try again");
+                    return;
+                }
             }
             StartScreen.isFirstTime = false;
 
@@ -100,16 +124,10 @@ namespace WatchDOG.Screens
 
         private Driver LoadDriver(string username)
         {
-            return null;
-        }
-
-        private async void InsertDriver(Driver todoItem)
-        {
-            //// This code inserts a new Drivers into the database. When the operation completes
-            //// and Mobile Services has assigned an Id, the item is added to the CollectionView
-            await DriversTable.InsertAsync(todoItem);
-
-            Drivers.Add(todoItem);
+            Driver driver = drivers.Where(_driver => _driver.Username == username).FirstOrDefault();
+            if (driver != null)
+                return driver;
+            else throw new InvalidOperationException("Non existing driver");
         }
 
         private Driver _driver;
@@ -122,17 +140,25 @@ namespace WatchDOG.Screens
         /// <param name="password">Driver's Password</param>
         private async void CreateNewDriver(string name, string username, string password)
         {
-            // ToDo: Insert to the DB.
-
+            
             _driver = null;
-            var _existing = await DriversTable.Where(driver => driver.Username == username).ToListAsync();
+            
+            if (drivers == null)
+                getUsersFromServer();
 
-            if (!_existing.Any())
+            var _existing = drivers.Where(driver => driver.Username == username);
+            if (_existing == null || !_existing.Any())
             {
-                _driver = new Driver(name, username, password);
-
-                InsertDriver(_driver);
-                
+                var tempDriver = new Driver(name, username, password);
+                try
+                {
+                    _driver = tempDriver;
+                    await driversTable.InsertAsync(tempDriver);               
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
                 return;
             }
             else
@@ -140,8 +166,10 @@ namespace WatchDOG.Screens
                 MessageBox.Show("User name already exists");
 
             }
-            return;
+            
         }
+
+
 
         /// <summary>
         /// Validate login credentials with the DB
@@ -151,9 +179,10 @@ namespace WatchDOG.Screens
         /// <returns></returns>
         private bool ValidateCredentials(string username, string password)
         {
-            //ToDo: Check with the DB for existance of a username with this specific password.
-
-            return true;
+            var _driver = drivers.Where(driver => driver.Username == username).FirstOrDefault();
+            if (_driver != null)
+                return _driver.Password == password;
+            return false;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace WatchDOG.Screens
             InitializeComponent();
             if (Settings.CurrentDriverSetting != null)
             {
-                txtDriversName.Text = Settings.CurrentDriverSetting.Name;
+                txtboxName.Text = Settings.CurrentDriverSetting.Name;
                 PopulateSettings();
             }
             else WatchDogHelper.ShowToastMessage("Error", "No driver loaded, please restart the application");
@@ -75,6 +75,17 @@ namespace WatchDOG.Screens
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
+            if (this.NavigationService.CanGoBack)
+                // Try going to the previous screen first
+                this.NavigationService.GoBack();
+            else
+                NavigationService.Navigate(new Uri("/Screens/StartScreen.xaml", UriKind.Relative));
+            
+        }
+
+        private void txtboxName_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Settings.CurrentDriverSetting = null;
             if (this.NavigationService.CanGoBack)
                 // Try going to the previous screen first
                 this.NavigationService.GoBack();

@@ -27,7 +27,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Margin="12,100,12,450" Grid.RowSpan="2">
-            <Image Height="204" Margin="141,0,0,0" VerticalAlignment="Top" Width="185" Source="/Resources/watch dog.jpg" HorizontalAlignment="Left"/>
+            <Image Height="204" Margin="141,0,0,0" VerticalAlignment="Top" Width="185" Source="/Resources/watchdog.jpg" HorizontalAlignment="Left"/>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="335" Margin="10,200,0,0" Grid.Row="1" VerticalAlignment="Top" Width="456">
             <Grid.RowDefinitions>

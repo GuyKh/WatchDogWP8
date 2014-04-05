@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 
 namespace WatchDOG.DataStructures
 {
+    [DataContract]
     public class Driver
     {
 
@@ -21,7 +23,11 @@ namespace WatchDOG.DataStructures
         #endregion 
         
         #region Public Properties
+        [DataMember]
+        public string id { get; set; }
+
         [JsonProperty(PropertyName = "Name")]
+        [DataMember]
         public string Name
         {
             get { return _name; }
@@ -29,6 +35,7 @@ namespace WatchDOG.DataStructures
         }
 
         [JsonProperty(PropertyName = "Username")]
+        [DataMember]
         public string Username
         {
             get { return _username; }
@@ -36,6 +43,7 @@ namespace WatchDOG.DataStructures
         }
 
         [JsonProperty(PropertyName = "Password")]
+        [DataMember]
         public string Password
         {
             get { return _password; }
@@ -43,6 +51,7 @@ namespace WatchDOG.DataStructures
         }
 
         [JsonProperty(PropertyName = "AverageScore")]
+        [DataMember]
         public double AverageScore
         {
             get { return _avgScore; }
